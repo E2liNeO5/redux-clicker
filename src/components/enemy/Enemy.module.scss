@@ -1,0 +1,16 @@
+@use '../../styles/variables.scss' as *;
+
+.enemy_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  width: $containerWidth;
+  height: 90%;
+  padding: 1em;
+
+  .enemy_image {
+    width: 512px;
+    height: 512px;
+  }
+}
