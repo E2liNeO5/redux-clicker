@@ -1,9 +1,6 @@
-import { FRAME_SIZE, IHitData } from "./Hit.constants"
+import { FRAME_SIZE } from "./Hit.constants"
 import useHitAnimation from "../../hooks/hit/useHitAnimation"
-
-interface IHitItem {
-  item: IHitData
-}
+import { IHitItem } from "./Hit.types"
 
 const Hit = ({ item }: IHitItem) => {
   const frame = useHitAnimation(item.id)
@@ -15,7 +12,7 @@ const Hit = ({ item }: IHitItem) => {
       position: 'absolute',
       left: `${item.x - FRAME_SIZE / 2}px`,
       top: `${item.y - FRAME_SIZE / 2}px`,
-      backgroundImage: 'url(images/hit_frames.png)',
+      backgroundImage: 'url(images/hit_frames_v3.png)',
       backgroundPosition: `${-frame * FRAME_SIZE}px ${item.variation * FRAME_SIZE}px`,
       zIndex: 11
     }} />

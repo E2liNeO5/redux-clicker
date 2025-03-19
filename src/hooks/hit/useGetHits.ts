@@ -1,4 +1,4 @@
-import { IHitData } from "../../components/hit/Hit.constants"
+import { IHitData } from "../../components/hit/Hit.types"
 import { useAppSelector } from "../typedHooks"
 
 const useGetHits = (): IHitData[] => {

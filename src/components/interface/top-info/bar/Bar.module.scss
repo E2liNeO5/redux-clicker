@@ -15,7 +15,8 @@
     border-radius: calc($border-radius / 2);
     width: 100%;
     height: 100%;
-    position: absolute;    
+    position: absolute;
+    transition: width .2s;
   }
   
   .bar_value {
