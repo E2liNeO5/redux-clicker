@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ANIMATION_DURATION, MAX_FRAME } from "../../components/hit/Hit.constants"
+import { ANIMATION_DURATION, MAX_FRAME } from "../../constants/Hit.constants"
 import useActions from "../useActions"
 
 const useHitAnimation = (index: number) => {

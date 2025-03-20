@@ -4,8 +4,8 @@ type LucideIcon = React.ComponentType<React.SVGProps<SVGSVGElement>>
 
 interface Props {
   type: LucideIcon
-  hint: string,
-  keyHint: string,
+  hint: string
+  keyHint: string
   size: string
 }
 

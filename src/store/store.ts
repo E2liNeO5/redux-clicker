@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { reducer as hitState } from "./hit.slice";
+import { reducer as hitReducer } from "./hit.slice";
+import { reducer as playerReducer } from "./player.slice";
 
 const reducers = combineReducers({
-  hitState
+  hitReducer,
+  playerReducer
 })
 
 export const store = configureStore({

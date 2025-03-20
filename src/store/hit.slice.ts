@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IHit, IHitData } from "../components/hit/Hit.types";
+import { IHit, IHitData } from "../types/Hit.types";
 
 const initialState: IHit[]  = [] 
 
