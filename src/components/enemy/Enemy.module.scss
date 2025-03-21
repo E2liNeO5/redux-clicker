@@ -9,11 +9,13 @@
   height: 90%;
   padding: 1em;
 
-  .enemy_image {
+  .enemy_wrapper {
     position: relative;
-    overflow: hidden;
-    background-size: cover;
-    box-shadow: 0 0 10px 5px rgba(0, 0, 0, .5);
-    transition: transform .1s;
+
+    .enemy_image {
+      background-size: cover;
+      box-shadow: 0 0 10px 5px rgba(0, 0, 0, .5);
+      transition: transform .1s;
+    }
   }
 }

@@ -10,7 +10,6 @@
   border-radius: $border-radius;
   transition: box-shadow .4s ease-out;
   cursor: pointer;
-  user-select: none;
 
   &:hover {
     box-shadow: 0 0 5px 5px $bg-color;

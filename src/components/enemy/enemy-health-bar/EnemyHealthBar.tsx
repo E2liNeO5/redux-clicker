@@ -2,23 +2,15 @@ import { useEffect, useState } from 'react'
 import styles from './EnemyHealthBar.module.scss'
 import { IPart, Props } from '../../../types/EnemyHealthBar.types'
 
-const MAX_HEALTH: number = 100
 const INITIAL_PARTS: IPart[] = []
 
-function EnemyHealthBar({ damage, clickCount }: Props) {
-  const [health, setHealth] = useState(MAX_HEALTH)
+function EnemyHealthBar({ damage, clickCount, health, maxHealth }: Props) {
   const [barWidth, setBarWidth] = useState('100%')
   const [parts, setParts] = useState(INITIAL_PARTS)
 
   useEffect(() => {
-    if(clickCount > 0) {
-      setHealth(prev => prev - damage)
-    }
-  }, [clickCount])
-
-  useEffect(() => {
-    if(health !== MAX_HEALTH) {
-      const barWidth = ~~(health / MAX_HEALTH * 100)
+    if(health !== maxHealth) {
+      const barWidth = ~~(health / maxHealth * 100)
       const partWidth = ~~(damage / health * 100)
       setParts(prev => [...prev, {
         width: `${partWidth}%`
@@ -56,7 +48,7 @@ function EnemyHealthBar({ damage, clickCount }: Props) {
           />
         ))}
       </span>
-      <span className={styles.bar_value}>{health}/{MAX_HEALTH}</span>
+      <span className={styles.bar_value}>{health}/{maxHealth}</span>
     </div>
   )
 }

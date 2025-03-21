@@ -9,11 +9,11 @@ function HealthBar() {
   const [isAnimate, setIsAnimate] = useState(false)
 
   useEffect(() => {
-    if(player.currentHealth !== player.maxHealth) {
-      setBarWidth(player.currentHealth / player.maxHealth * 100 + '%')
+    if(player.health !== player.maxHealth) {
+      setBarWidth(player.health / player.maxHealth * 100 + '%')
       setIsAnimate(true)
     }
-  }, [player.currentHealth])
+  }, [player.health])
 
   useEffect(() => {
     if(isAnimate)
@@ -27,7 +27,7 @@ function HealthBar() {
       <span className={styles.bar_container} style={{
         width: barWidth,
       }} />
-      <span className={styles.bar_value}>{player.currentHealth}/{player.maxHealth}</span>
+      <span className={styles.bar_value}>{player.health}/{player.maxHealth}</span>
     </div>
   )
 }
