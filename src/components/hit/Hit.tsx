@@ -15,7 +15,8 @@ const Hit = ({ item }: IHitItem) => {
       backgroundImage: `url(images/${IMAGE_NAME})`,
       backgroundPosition: `${-frame * FRAME_SIZE}px ${item.variation * FRAME_SIZE}px`,
       filter: 'drop-shadow(0 0 10px #ffffff)',
-      zIndex: 11
+      zIndex: 11,
+      pointerEvents: 'none'
     }} />
   )
 }

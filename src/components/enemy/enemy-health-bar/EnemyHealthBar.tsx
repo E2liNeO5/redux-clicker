@@ -9,15 +9,18 @@ function EnemyHealthBar({ damage, clickCount, health, maxHealth }: Props) {
   const [parts, setParts] = useState(INITIAL_PARTS)
 
   useEffect(() => {
-    if(health !== maxHealth) {
+    if(clickCount > 0) {
       const barWidth = ~~(health / maxHealth * 100)
       const partWidth = ~~(damage / health * 100)
       setParts(prev => [...prev, {
         width: `${partWidth}%`
       }])
       setBarWidth(`${barWidth}%`)
+    } else {
+      setBarWidth('100%')
+      setParts(INITIAL_PARTS)
     }
-  }, [health])
+  }, [clickCount])
 
   useEffect(() => {
     const intervalId = setInterval(() => {

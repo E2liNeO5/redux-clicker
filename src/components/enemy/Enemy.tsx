@@ -1,4 +1,4 @@
-import { useRef, useState, MouseEvent } from 'react'
+import { useRef, useState, MouseEvent, useEffect } from 'react'
 import styles from './Enemy.module.scss'
 import EnemyHealthBar from './enemy-health-bar/EnemyHealthBar'
 import Hit from '../hit/Hit'
@@ -11,6 +11,7 @@ import useGetPlayer from '../../hooks/player/useGetPlayerDamage'
 import useGetEnemy from '../../hooks/enemy/useGetEnemy'
 import Shield from './enemy-modifications/Shield'
 import useHitCondition from '../../hooks/enemy/useHitCondition'
+import { IEnemyShield } from '../../types/Enemy.types'
 
 function Enemy() {
   const enemy = useGetEnemy()
@@ -21,18 +22,17 @@ function Enemy() {
   const [modAwareAnimation, setModAwareAnimation] = useState('')
 
   const enemyRef = useRef<HTMLDivElement>(null)
+  const modificationElementRef = useRef<HTMLDivElement>(null)
 
-  const { addHit, hitEnemy } = useActions()
+  const { addHit, hitEnemy, nextEnemy } = useActions()
   const hits = useGetHits()
 
   const clickHandler = (e: MouseEvent<HTMLDivElement>) => {
+    const offset = enemyRef.current?.getBoundingClientRect() || INITIAL_OFFSET
+    const x = e.clientX - offset.left
+    const y = e.clientY - offset.top
     if(useHitCondition(enemy)) {
-      const offset = enemyRef.current?.getBoundingClientRect() || INITIAL_OFFSET
-      const x = e.clientX - offset.left
-      const y = e.clientY - offset.top
-
       setClickCount(prev => prev + 1)
-      addHit({ id: Date.now(), x, y, variation: getRandom(0, 4) })
       hitEnemy(damage)
 
       let rotateX = (IMAGE_SIZE / 2 - y) / ROTATE_RATIO
@@ -42,17 +42,26 @@ function Enemy() {
       setTimeout(() => {
         setRotate('')
       }, ANIMATION_DURATION)
-    } else {
+    } else if(e.target !== modificationElementRef.current) {
       setModAwareAnimation('drop-shadow(0 0 10px red)')
       setTimeout(() => {
         setModAwareAnimation('')
       }, MOD_AWARE_ANIMATION_DURATION)
     }
+    
+    addHit({ id: Date.now(), x, y, variation: getRandom(0, 4) })
   }
 
   const showHits = () => {
     return hits.map((hit: IHitData) => <Hit key={hit.id} item={hit} />)
   }
+
+  useEffect(() => {
+    if(enemy.health <= 0) {
+      setClickCount(0)
+      nextEnemy()
+    }
+  }, [enemy.health])
 
   return (
     <div className={styles.enemy_container}>
@@ -69,7 +78,8 @@ function Enemy() {
             transform: `perspective(800px) ${rotate}`
         }}>
         </div>
-          { enemy.modification && enemy.modification.type === 'shield' && <Shield animation={modAwareAnimation} enemy={enemy} /> }
+          { enemy.modification && enemy.modification.type === 'shield' && !useHitCondition(enemy) &&
+            <Shield modAwareElement={modificationElementRef} animation={modAwareAnimation} enemy={enemy} /> }
           { showHits() }
       </div>
 

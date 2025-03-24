@@ -1,38 +1,38 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import useGetPlayer from '../../../hooks/player/useGetPlayerDamage'
 import useActions from '../../../hooks/useActions'
 import { IShieldProps } from '../../../types/Enemy.types'
 import styles from './EnemyModifications.module.scss'
 import { getRandom } from '../../../utils'
 import { IMAGE_SIZE } from '../../../constants/Enemy.constants'
-import { MOVE_DELAY, ROTATE_VALUES, SHIELD_SIZE } from '../../../constants/Shield.constants'
+import { SHIELD_MOVE_DELAY, ROTATE_VALUES, SHIELD_MOVE_DURATION, SHIELD_SIZE, SHIELD_REMOVE_DELAY, SHIELD_TRANSFORM_DURATION } from '../../../constants/Shield.constants'
 
-const Shield = ({ animation, enemy }: IShieldProps) => {
+const Shield = ({ modAwareElement, animation, enemy }: IShieldProps) => {
   const { hitShield } = useActions()
   const { damage } = useGetPlayer()
 
   const [isRemove, setIsRemove] = useState('block')
-  const [rotate, setRotate] = useState('')
+  const [rotate, setRotate] = useState('0deg')
+  const [scale, setScale] = useState(1)
   const [coords, setCoords] = useState({
-    x: 0, y: 0
+    x: getRandom(0, IMAGE_SIZE - SHIELD_SIZE), y: getRandom(0, IMAGE_SIZE - SHIELD_SIZE)
   })
 
   const removeShield = () => {
     if(enemy.modification && enemy.modification.shieldHealth <= 0) {
-      setIsRemove('none')
+      setScale(0)
+      setTimeout(() => setIsRemove('none'), SHIELD_REMOVE_DELAY)
       return true
     }
     return false
   }
 
   const clickHandler = () => {
-    if(!removeShield()) {
-      hitShield(damage)
-      setRotate(`rotateZ(${ROTATE_VALUES[getRandom(0, ROTATE_VALUES.length - 1)]}deg)`)
-      setTimeout(() => {
-        setRotate('')
-      }, 50)
-    }
+    hitShield(damage)
+    setRotate(`${ROTATE_VALUES[getRandom(0, ROTATE_VALUES.length - 1)]}deg`)
+    setTimeout(() => {
+      setRotate('0deg')
+    }, SHIELD_TRANSFORM_DURATION)
   }
 
   useMemo(() => {
@@ -44,7 +44,7 @@ const Shield = ({ animation, enemy }: IShieldProps) => {
           x: getRandom(0, IMAGE_SIZE - SHIELD_SIZE),
           y: getRandom(0, IMAGE_SIZE - SHIELD_SIZE)
         })
-      }, MOVE_DELAY);
+      }, SHIELD_MOVE_DELAY);
     }
 
     startMove()
@@ -58,14 +58,16 @@ const Shield = ({ animation, enemy }: IShieldProps) => {
 
   return (
     <div
+      ref={modAwareElement}
       style={{
         display: isRemove,
-        transform: rotate,
+        transform: `rotateZ(${rotate}) scale(${scale})`,
         left: coords.x,
         top: coords.y,
         width: `${SHIELD_SIZE}px`,
         height: `${SHIELD_SIZE}px`,
-        filter: animation
+        filter: animation,
+        transition: `top ${SHIELD_MOVE_DURATION}ms, left ${SHIELD_MOVE_DURATION}ms, transform ${SHIELD_TRANSFORM_DURATION}ms`
       }}
       onClick={clickHandler}
       className={styles.shield}

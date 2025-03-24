@@ -1,26 +1,23 @@
-import { ReactNode, RefObject } from "react";
+import { RefObject } from "react";
 
 export interface IEnemy {
   health: number
   maxHealth: number
   image: string
+  healthUp: number
+  statsUpRatio: number
+  shieldMaxHealth: number
   modification?: null | IEnemyShield
 }
 
-export interface IEnemyProps {
-  enemyRef: RefObject<HTMLDivElement>
-  children: ReactNode
-  rotate: string
-  image: string
-}
-
 export interface IEnemyShield {
-  type: 'shield'
+  type: string
   shieldHealth: number
   shieldMaxHealth: number
 }
 
 export interface IModAwareAnimation {
+  modAwareElement: RefObject<HTMLDivElement>
   animation: string
 }
 
