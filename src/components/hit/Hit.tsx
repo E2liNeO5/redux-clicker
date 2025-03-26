@@ -12,7 +12,7 @@ const Hit = ({ item }: IHitItem) => {
       position: 'absolute',
       left: `${item.x - FRAME_SIZE / 2}px`,
       top: `${item.y - FRAME_SIZE / 2}px`,
-      backgroundImage: `url(images/${IMAGE_NAME})`,
+      backgroundImage: `url(/images/${IMAGE_NAME})`,
       backgroundPosition: `${-frame * FRAME_SIZE}px ${item.variation * FRAME_SIZE}px`,
       filter: 'drop-shadow(0 0 10px #ffffff)',
       zIndex: 11,

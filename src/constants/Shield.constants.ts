@@ -1,4 +1,4 @@
-import { ENEMY_INITIAL_HEALTH, INITIAL_STATS_UP_RATION } from "./Enemy.constants"
+import { ENEMY_INITIAL_HEALTH } from "./Enemy.constants"
 
 export const SHIELD_SIZE = 100
 export const ROTATE_VALUES = [-20, -15, -10, 10, 15, 20]
@@ -7,4 +7,5 @@ export const SHIELD_MOVE_DURATION = 500
 export const SHIELD_REMOVE_DELAY = 500
 export const SHIELD_TRANSFORM_DURATION = 200
 
-export const INITIAL_SHIELD_HEALTH = ENEMY_INITIAL_HEALTH / 5 * INITIAL_STATS_UP_RATION
+export const SHIELD_HEALTH_RATIO = 3
+export const INITIAL_SHIELD_HEALTH = ENEMY_INITIAL_HEALTH / SHIELD_HEALTH_RATIO

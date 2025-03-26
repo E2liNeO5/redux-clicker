@@ -1,4 +1,4 @@
-import { useRef, useState, MouseEvent, useEffect } from 'react'
+import { useRef, useState, MouseEvent, useEffect, useMemo } from 'react'
 import styles from './Enemy.module.scss'
 import EnemyHealthBar from './enemy-health-bar/EnemyHealthBar'
 import Hit from '../hit/Hit'
@@ -6,12 +6,13 @@ import useActions from '../../hooks/useActions'
 import useGetHits from '../../hooks/hit/useGetHits'
 import { ANIMATION_DURATION, IMAGE_SIZE, INITIAL_OFFSET, MOD_AWARE_ANIMATION_DURATION, ROTATE_RATIO } from '../../constants/Enemy.constants'
 import { IHitData } from '../../types/Hit.types'
-import { getRandom } from '../../utils'
+import { getEnemyModification, getRandom } from '../../utils'
 import useGetPlayer from '../../hooks/player/useGetPlayerDamage'
 import useGetEnemy from '../../hooks/enemy/useGetEnemy'
 import Shield from './enemy-modifications/Shield'
 import useHitCondition from '../../hooks/enemy/useHitCondition'
-import { IEnemyShield } from '../../types/Enemy.types'
+import useNextEnemy from '../../hooks/enemy/useNextEnemy'
+import useGetLevel from '../../hooks/level/useGetLevel'
 
 function Enemy() {
   const enemy = useGetEnemy()
@@ -24,8 +25,17 @@ function Enemy() {
   const enemyRef = useRef<HTMLDivElement>(null)
   const modificationElementRef = useRef<HTMLDivElement>(null)
 
-  const { addHit, hitEnemy, nextEnemy } = useActions()
+  const { addHit, hitEnemy, setStartEnemy } = useActions()
+  
   const hits = useGetHits()
+
+  const { startHealth } = useGetLevel()
+
+  useMemo(() => {
+    setStartEnemy({ health: startHealth, modification: getEnemyModification(enemy) })
+  }, [])
+
+  const nextEnemy = useNextEnemy()
 
   const clickHandler = (e: MouseEvent<HTMLDivElement>) => {
     const offset = enemyRef.current?.getBoundingClientRect() || INITIAL_OFFSET
@@ -79,7 +89,7 @@ function Enemy() {
         }}>
         </div>
           { enemy.modification && enemy.modification.type === 'shield' && !useHitCondition(enemy) &&
-            <Shield modAwareElement={modificationElementRef} animation={modAwareAnimation} enemy={enemy} /> }
+            <Shield modAwareElement={modificationElementRef} animation={modAwareAnimation} /> }
           { showHits() }
       </div>
 

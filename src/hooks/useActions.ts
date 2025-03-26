@@ -1,14 +1,16 @@
 import { bindActionCreators } from "@reduxjs/toolkit"
 import { useMemo } from "react"
-import { actions as hitActions } from "../store/hit.slice"
-import { actions as enemyActions } from "../store/enemy.slice"
-import { actions as playerActions } from "../store/player.slice"
+import { hitActions } from "../store/hit.slice"
+import { enemyActions } from "../store/enemy.slice"
+import { playerActions } from "../store/player.slice"
 import { useAppDispatch } from "./typedHooks"
+import { levelActions } from "../store/level.slice"
 
 const rootActions = {
   ...hitActions,
   ...enemyActions,
-  ...playerActions
+  ...playerActions,
+  ...levelActions
 }
 
 const useActions = () => {

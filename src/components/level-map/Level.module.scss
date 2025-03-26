@@ -1,0 +1,55 @@
+@use '../../styles/variables.scss' as *;
+
+.level_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  height: 75px;
+  position: relative;
+  border: 5px solid $primary-color;
+  border-radius: $border-radius;
+  background-color: $primary-color;
+  color: $primary-color;
+  font-size: 48px;
+  margin: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, .2);
+  overflow: hidden;
+  cursor: pointer;
+  transition: color .4s;
+
+  &:hover {
+    color: $bg-color;
+
+    &:before {
+      top: 100%;
+    }
+
+    &:after {
+      top: -100%;
+    }
+  }
+
+  &:before, 
+  &:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: $bg-color;
+    position: absolute;
+    transition: .2s;
+  }
+
+  &:before {
+    top: 50%;
+  }
+
+  &:after {
+    top: -50%;
+  }
+
+  
+  .level_number {
+    z-index: 5;
+  }
+}

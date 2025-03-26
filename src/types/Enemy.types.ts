@@ -4,10 +4,9 @@ export interface IEnemy {
   health: number
   maxHealth: number
   image: string
-  healthUp: number
-  statsUpRatio: number
   shieldMaxHealth: number
   modification?: null | IEnemyShield
+  count: number
 }
 
 export interface IEnemyShield {
@@ -16,11 +15,11 @@ export interface IEnemyShield {
   shieldMaxHealth: number
 }
 
-export interface IModAwareAnimation {
+export interface IShieldProps {
   modAwareElement: RefObject<HTMLDivElement>
   animation: string
 }
 
-export interface IShieldProps extends IModAwareAnimation {
-  enemy: IEnemy
-}
+export type EnemyProgressPayload = Pick<IEnemy, 'health' | 'modification' | 'shieldMaxHealth' | 'image'>
+
+export type EnemyStartData = Pick<IEnemy, 'health' | 'modification'>

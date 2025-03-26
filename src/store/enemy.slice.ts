@@ -1,16 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IEnemy } from "../types/Enemy.types";
-import { ENEMY_INITIAL_HEALTH, ENEMY_INITIAL_HEALTH_UP, ENEMY_MODIFY_CHANCE, IMAGES_PATH, INITIAL_STATS_UP_RATION } from "../constants/Enemy.constants";
-import { getChanceSuccess, getEnemyImage, getEnemyModification } from "../utils";
+import { IEnemy, EnemyProgressPayload, EnemyStartData } from "../types/Enemy.types";
+import { ENEMY_IMAGES, ENEMY_INITIAL_HEALTH } from "../constants/Enemy.constants";
 import { INITIAL_SHIELD_HEALTH } from "../constants/Shield.constants";
 
 const initialState: IEnemy = {
   health: ENEMY_INITIAL_HEALTH,
   maxHealth: ENEMY_INITIAL_HEALTH,
-  healthUp: ENEMY_INITIAL_HEALTH_UP,
-  statsUpRatio: INITIAL_STATS_UP_RATION,
-  image: `${IMAGES_PATH}enemy1.png`,
-  shieldMaxHealth: INITIAL_SHIELD_HEALTH
+  image: ENEMY_IMAGES[0],
+  shieldMaxHealth: INITIAL_SHIELD_HEALTH,
+  count: 1
 }
 
 export const enemySlice = createSlice({
@@ -24,18 +22,21 @@ export const enemySlice = createSlice({
       const mod = state.modification
       mod && (mod.shieldHealth -= damage)
     },
-    nextEnemy: (state) => {
-      state.image = getEnemyImage()
-      state.maxHealth = Math.ceil(state.maxHealth + state.healthUp)
-      state.health = state.maxHealth
-      state.healthUp *= state.statsUpRatio
-
-      state.shieldMaxHealth = Math.ceil(state.maxHealth / 5 * state.statsUpRatio)
-
-      if(getChanceSuccess(ENEMY_MODIFY_CHANCE))
-        state.modification = getEnemyModification(state)
+    enemyProgress: (state, { payload }: PayloadAction<EnemyProgressPayload>) => {
+      state.count++
+      state.image = payload.image
+      state.maxHealth = payload.health
+      state.health = payload.health
+      state.modification = payload.modification
+      state.shieldMaxHealth = payload.shieldMaxHealth
+    },
+    setStartEnemy: (state, { payload }: PayloadAction<EnemyStartData>) => {
+      state.maxHealth = payload.health
+      state.health = payload.health
+      state.modification = payload.modification
+      state.count = 1
     }
   }
 })
 
-export const { actions, reducer } = enemySlice
+export const { actions: enemyActions, reducer: enemyReducer } = enemySlice

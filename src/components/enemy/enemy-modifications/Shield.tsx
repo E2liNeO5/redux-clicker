@@ -6,10 +6,12 @@ import styles from './EnemyModifications.module.scss'
 import { getRandom } from '../../../utils'
 import { IMAGE_SIZE } from '../../../constants/Enemy.constants'
 import { SHIELD_MOVE_DELAY, ROTATE_VALUES, SHIELD_MOVE_DURATION, SHIELD_SIZE, SHIELD_REMOVE_DELAY, SHIELD_TRANSFORM_DURATION } from '../../../constants/Shield.constants'
+import useGetEnemy from '../../../hooks/enemy/useGetEnemy'
 
-const Shield = ({ modAwareElement, animation, enemy }: IShieldProps) => {
+const Shield = ({ modAwareElement, animation }: IShieldProps) => {
   const { hitShield } = useActions()
   const { damage } = useGetPlayer()
+  const { modification } = useGetEnemy()
 
   const [isRemove, setIsRemove] = useState('block')
   const [rotate, setRotate] = useState('0deg')
@@ -19,7 +21,7 @@ const Shield = ({ modAwareElement, animation, enemy }: IShieldProps) => {
   })
 
   const removeShield = () => {
-    if(enemy.modification && enemy.modification.shieldHealth <= 0) {
+    if(modification && modification.shieldHealth <= 0) {
       setScale(0)
       setTimeout(() => setIsRemove('none'), SHIELD_REMOVE_DELAY)
       return true
@@ -54,7 +56,7 @@ const Shield = ({ modAwareElement, animation, enemy }: IShieldProps) => {
 
   useEffect(() => {
     removeShield()
-  }, [enemy.modification?.shieldHealth])
+  }, [modification?.shieldHealth])
 
   return (
     <div

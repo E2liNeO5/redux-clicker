@@ -24,4 +24,4 @@ export const hitSlice = createSlice({
   }
 })
 
-export const { actions, reducer } = hitSlice
+export const { actions: hitActions, reducer: hitReducer } = hitSlice
