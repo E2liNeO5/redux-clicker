@@ -3,8 +3,10 @@ import { RefObject } from "react";
 export interface IEnemy {
   health: number
   maxHealth: number
+  damageMin: number
+  damageMax: number
+  attack_delay: number
   image: string
-  shieldMaxHealth: number
   modification?: null | IEnemyShield
   count: number
 }
@@ -20,6 +22,6 @@ export interface IShieldProps {
   animation: string
 }
 
-export type EnemyProgressPayload = Pick<IEnemy, 'health' | 'modification' | 'shieldMaxHealth' | 'image'>
+export type EnemyProgressPayload = Pick<IEnemy, 'health' | 'modification' | 'image' | 'damageMin' | 'damageMax'>
 
-export type EnemyStartData = Pick<IEnemy, 'health' | 'modification'>
+export type EnemyStartData = Pick<IEnemy, 'health' | 'modification' | 'damageMin' | 'damageMax'>

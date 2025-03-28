@@ -1,43 +1,38 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useGetPlayer from '../../../hooks/player/useGetPlayerDamage'
 import useActions from '../../../hooks/useActions'
 import { IShieldProps } from '../../../types/Enemy.types'
 import styles from './EnemyModifications.module.scss'
 import { getRandom } from '../../../utils'
 import { IMAGE_SIZE } from '../../../constants/Enemy.constants'
-import { SHIELD_MOVE_DELAY, ROTATE_VALUES, SHIELD_MOVE_DURATION, SHIELD_SIZE, SHIELD_REMOVE_DELAY, SHIELD_TRANSFORM_DURATION } from '../../../constants/Shield.constants'
+import { SHIELD_MOVE_DELAY, ROTATE_VALUES, SHIELD_MOVE_DURATION, SHIELD_SIZE, SHIELD_TRANSFORM_DURATION, SHIELD_REMOVE_ANIMATION_DURATION } from '../../../constants/Shield.constants'
 import useGetEnemy from '../../../hooks/enemy/useGetEnemy'
+import useAnimation from '../../../hooks/useAnimation'
 
 const Shield = ({ modAwareElement, animation }: IShieldProps) => {
-  const { hitShield } = useActions()
+  const { hitShield, removeModification } = useActions()
   const { damage } = useGetPlayer()
   const { modification } = useGetEnemy()
+  const animate = useAnimation()
 
-  const [isRemove, setIsRemove] = useState('block')
+  const [isRemove, setIsRemove] = useState(false)
   const [rotate, setRotate] = useState('0deg')
-  const [scale, setScale] = useState(1)
+  const [scale, setScale] = useState('1')
   const [coords, setCoords] = useState({
     x: getRandom(0, IMAGE_SIZE - SHIELD_SIZE), y: getRandom(0, IMAGE_SIZE - SHIELD_SIZE)
   })
 
-  const removeShield = () => {
-    if(modification && modification.shieldHealth <= 0) {
-      setScale(0)
-      setTimeout(() => setIsRemove('none'), SHIELD_REMOVE_DELAY)
-      return true
-    }
-    return false
-  }
-
   const clickHandler = () => {
     hitShield(damage)
-    setRotate(`${ROTATE_VALUES[getRandom(0, ROTATE_VALUES.length - 1)]}deg`)
-    setTimeout(() => {
-      setRotate('0deg')
-    }, SHIELD_TRANSFORM_DURATION)
+    animate({
+      value: `${ROTATE_VALUES[getRandom(0, ROTATE_VALUES.length - 1)]}deg`,
+      defaultValue: '0deg',
+      setter: setRotate,
+      duration: SHIELD_TRANSFORM_DURATION
+    })
   }
 
-  useMemo(() => {
+  useEffect(() => {
     let interval: NodeJS.Timeout
 
     const startMove = () => {
@@ -55,14 +50,28 @@ const Shield = ({ modAwareElement, animation }: IShieldProps) => {
   }, [])
 
   useEffect(() => {
-    removeShield()
+    if(modification && modification.shieldHealth <= 0)
+      setIsRemove(true)
   }, [modification?.shieldHealth])
+
+  useEffect(() => {
+    if(isRemove) {
+      animate({
+        value: '0',
+        defaultValue: '0',
+        setter: setScale,
+        duration: SHIELD_REMOVE_ANIMATION_DURATION,
+        ending: () => {
+          removeModification()
+        }
+    })
+    }
+  }, [isRemove])
 
   return (
     <div
       ref={modAwareElement}
       style={{
-        display: isRemove,
         transform: `rotateZ(${rotate}) scale(${scale})`,
         left: coords.x,
         top: coords.y,

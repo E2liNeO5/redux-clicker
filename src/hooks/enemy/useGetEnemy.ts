@@ -1,7 +1,9 @@
 import { useAppSelector } from "../typedHooks"
 
 const useGetEnemy = () => {
-  return useAppSelector(state => state.enemyReducer)
+  const enemy =  useAppSelector(state => state.enemyReducer)
+
+  return { ...enemy }
 }
 
 export default useGetEnemy

@@ -1,6 +1,6 @@
 import { FRAME_SIZE, IMAGE_NAME } from "../../constants/Hit.constants"
-import useHitAnimation from "../../hooks/hit/useHitAnimation"
 import { IHitItem } from "../../types/Hit.types"
+import useHitAnimation from "../../hooks/hit/useHitAnimation"
 
 const Hit = ({ item }: IHitItem) => {
   const frame = useHitAnimation(item.id)

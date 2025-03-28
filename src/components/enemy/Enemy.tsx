@@ -1,4 +1,4 @@
-import { useRef, useState, MouseEvent, useEffect, useMemo } from 'react'
+import { useRef, useState, MouseEvent, useEffect } from 'react'
 import styles from './Enemy.module.scss'
 import EnemyHealthBar from './enemy-health-bar/EnemyHealthBar'
 import Hit from '../hit/Hit'
@@ -13,11 +13,10 @@ import Shield from './enemy-modifications/Shield'
 import useHitCondition from '../../hooks/enemy/useHitCondition'
 import useNextEnemy from '../../hooks/enemy/useNextEnemy'
 import useGetLevel from '../../hooks/level/useGetLevel'
+import useAnimation from '../../hooks/useAnimation'
+import AllStats from '../tests/AllStats'
 
 function Enemy() {
-  const enemy = useGetEnemy()
-
-  const { damage } = useGetPlayer()
   const [rotate, setRotate] = useState('')
   const [clickCount, setClickCount] = useState(0)
   const [modAwareAnimation, setModAwareAnimation] = useState('')
@@ -25,17 +24,37 @@ function Enemy() {
   const enemyRef = useRef<HTMLDivElement>(null)
   const modificationElementRef = useRef<HTMLDivElement>(null)
 
-  const { addHit, hitEnemy, setStartEnemy } = useActions()
-  
+  const enemy = useGetEnemy()
+  const { damage } = useGetPlayer()
+  const { addHit, hitEnemy, setStartEnemy, playerHit } = useActions()
   const hits = useGetHits()
+  const { startHealth, startDamageMin, startDamageMax, currentLevel } = useGetLevel()
+  const nextEnemy = useNextEnemy()
+  const animate = useAnimation()
 
-  const { startHealth } = useGetLevel()
-
-  useMemo(() => {
-    setStartEnemy({ health: startHealth, modification: getEnemyModification(enemy) })
+  useEffect(() => {
+    setStartEnemy({
+      health: startHealth,
+      modification: getEnemyModification(enemy),
+      damageMin: startDamageMin,
+      damageMax: startDamageMax
+    })
   }, [])
 
-  const nextEnemy = useNextEnemy()
+  useEffect(() => {
+    const interval: NodeJS.Timeout = setInterval(() => {
+      playerHit(getRandom(enemy.damageMin, enemy.damageMax))
+    }, enemy.attack_delay)
+
+    return () => clearInterval(interval)
+  }, [enemy.count])
+  
+  useEffect(() => {
+    if(enemy.health <= 0) {
+      setClickCount(0)
+      nextEnemy()
+    }
+  }, [enemy.health])
 
   const clickHandler = (e: MouseEvent<HTMLDivElement>) => {
     const offset = enemyRef.current?.getBoundingClientRect() || INITIAL_OFFSET
@@ -48,30 +67,23 @@ function Enemy() {
       let rotateX = (IMAGE_SIZE / 2 - y) / ROTATE_RATIO
       let rotateY = (x - IMAGE_SIZE / 2) / ROTATE_RATIO
 
-      setRotate(`rotateX(${rotateX}deg) rotateY(${rotateY}deg)`)
-      setTimeout(() => {
-        setRotate('')
-      }, ANIMATION_DURATION)
+      animate({
+        value: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+        defaultValue: '',
+        setter: setRotate,
+        duration: ANIMATION_DURATION
+      })
     } else if(e.target !== modificationElementRef.current) {
-      setModAwareAnimation('drop-shadow(0 0 10px red)')
-      setTimeout(() => {
-        setModAwareAnimation('')
-      }, MOD_AWARE_ANIMATION_DURATION)
+      animate({
+        value: 'drop-shadow(0 0 10px red)',
+        defaultValue: '',
+        setter: setModAwareAnimation,
+        duration: MOD_AWARE_ANIMATION_DURATION
+      })
     }
     
     addHit({ id: Date.now(), x, y, variation: getRandom(0, 4) })
   }
-
-  const showHits = () => {
-    return hits.map((hit: IHitData) => <Hit key={hit.id} item={hit} />)
-  }
-
-  useEffect(() => {
-    if(enemy.health <= 0) {
-      setClickCount(0)
-      nextEnemy()
-    }
-  }, [enemy.health])
 
   return (
     <div className={styles.enemy_container}>
@@ -88,9 +100,9 @@ function Enemy() {
             transform: `perspective(800px) ${rotate}`
         }}>
         </div>
-          { enemy.modification && enemy.modification.type === 'shield' && !useHitCondition(enemy) &&
+          { enemy.modification && enemy.modification.type === 'shield' &&
             <Shield modAwareElement={modificationElementRef} animation={modAwareAnimation} /> }
-          { showHits() }
+          { hits.map((hit: IHitData) => <Hit key={hit.id} item={hit} />) }
       </div>
 
       <EnemyHealthBar

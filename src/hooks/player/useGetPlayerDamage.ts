@@ -1,7 +1,10 @@
+import { getRandom } from "../../utils"
 import { useAppSelector } from "../typedHooks"
 
 const useGetPlayer = () => {
-  return useAppSelector(state => state.playerReducer)
+  const player = useAppSelector(state => state.playerReducer)
+
+  return { ...player, damage: getRandom(player.damageMin, player.damageMax) }
 }
 
 export default useGetPlayer

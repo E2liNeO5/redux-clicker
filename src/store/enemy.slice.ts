@@ -1,14 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IEnemy, EnemyProgressPayload, EnemyStartData } from "../types/Enemy.types";
 import { ENEMY_IMAGES, ENEMY_INITIAL_HEALTH } from "../constants/Enemy.constants";
-import { INITIAL_SHIELD_HEALTH } from "../constants/Shield.constants";
 
 const initialState: IEnemy = {
   health: ENEMY_INITIAL_HEALTH,
   maxHealth: ENEMY_INITIAL_HEALTH,
+  damageMin: 2,
+  damageMax: 4,
+  attack_delay: 2000,
   image: ENEMY_IMAGES[0],
-  shieldMaxHealth: INITIAL_SHIELD_HEALTH,
-  count: 1
+  count: 0
 }
 
 export const enemySlice = createSlice({
@@ -27,14 +28,20 @@ export const enemySlice = createSlice({
       state.image = payload.image
       state.maxHealth = payload.health
       state.health = payload.health
+      state.damageMin = payload.damageMin
+      state.damageMax = payload.damageMax
       state.modification = payload.modification
-      state.shieldMaxHealth = payload.shieldMaxHealth
     },
     setStartEnemy: (state, { payload }: PayloadAction<EnemyStartData>) => {
       state.maxHealth = payload.health
       state.health = payload.health
+      state.damageMin = payload.damageMin
+      state.damageMax = payload.damageMax
       state.modification = payload.modification
       state.count = 1
+    },
+    removeModification: (state) => {
+      state.modification = null
     }
   }
 })

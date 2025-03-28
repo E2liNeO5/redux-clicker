@@ -1,5 +1,6 @@
 export interface IPlayer {
   health: number
   maxHealth: number
-  damage: number
+  damageMin: number
+  damageMax: number
 }
