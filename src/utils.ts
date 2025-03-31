@@ -25,3 +25,12 @@ export const getEnemyModification = (state: IEnemy) => {
   }
   return null
 }
+
+export const setSaves = (key: string, data: any) => {
+  localStorage.setItem(key, JSON.stringify(data))
+}
+
+export const getSaves = (key: string) => {
+  const data = localStorage.getItem(key)
+  return data ? JSON.parse(data) : data
+}

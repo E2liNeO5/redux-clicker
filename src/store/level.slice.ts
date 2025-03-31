@@ -1,15 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ILevel } from "../types/Level.types";
-import { levels } from "../constants/Level.constants";
+import { LEVEL_SAVE_KEY, levels } from "../constants/Level.constants";
+import { setSaves } from "../utils";
 
-const initialState: ILevel = {
-  currentLevel: 1,
-  startHealth: levels[0].startHealth,
-  startDamageMin: levels[0].startDamageMin,
-  startDamageMax: levels[0].startDamageMax,
-  healthRatios: levels[0].healthRatios,
-  damageRatios: levels[0].damageRatios
-}
+const initialState: ILevel = {}
   
 
 export const levelSlice = createSlice({
@@ -19,11 +13,13 @@ export const levelSlice = createSlice({
     setLevel: (state, { payload: level }: PayloadAction<number>) => {
       state.currentLevel = level
       const levelData = levels.find($level => $level.currentLevel === level)
-      state.healthRatios = levelData?.healthRatios || levels[0].healthRatios
-      state.damageRatios = levelData?.damageRatios || levels[0].damageRatios
-      state.startHealth = levelData?.startHealth || levels[0].startHealth
-      state.startDamageMin = levelData?.startDamageMin || levels[0].startDamageMin
-      state.startDamageMax = levelData?.startDamageMax || levels[0].startDamageMax
+      state.healthRatios = levelData?.healthRatios
+      state.damageRatios = levelData?.damageRatios
+      state.startHealth = levelData?.startHealth
+      state.startDamageMin = levelData?.startDamageMin
+      state.startDamageMax = levelData?.startDamageMax
+
+      setSaves(LEVEL_SAVE_KEY, state)
     }
   }
 })

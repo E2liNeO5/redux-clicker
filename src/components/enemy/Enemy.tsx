@@ -6,7 +6,7 @@ import useActions from '../../hooks/useActions'
 import useGetHits from '../../hooks/hit/useGetHits'
 import { ANIMATION_DURATION, IMAGE_SIZE, INITIAL_OFFSET, MOD_AWARE_ANIMATION_DURATION, ROTATE_RATIO } from '../../constants/Enemy.constants'
 import { IHitData } from '../../types/Hit.types'
-import { getEnemyModification, getRandom } from '../../utils'
+import { getEnemyModification, getRandom, getSaves } from '../../utils'
 import useGetPlayer from '../../hooks/player/useGetPlayerDamage'
 import useGetEnemy from '../../hooks/enemy/useGetEnemy'
 import Shield from './enemy-modifications/Shield'
@@ -28,7 +28,7 @@ function Enemy() {
   const { damage } = useGetPlayer()
   const { addHit, hitEnemy, setStartEnemy, playerHit } = useActions()
   const hits = useGetHits()
-  const { startHealth, startDamageMin, startDamageMax, currentLevel } = useGetLevel()
+  const { startHealth, startDamageMin, startDamageMax } = useGetLevel()
   const nextEnemy = useNextEnemy()
   const animate = useAnimation()
 

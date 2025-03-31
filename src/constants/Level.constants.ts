@@ -30,3 +30,5 @@ export const levels: ILevel[] = [
     }
   }
 ]
+
+export const LEVEL_SAVE_KEY = 'level_saves'
