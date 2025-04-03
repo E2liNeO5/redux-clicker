@@ -1,6 +1,6 @@
 import { ENEMY_IMAGES } from "../../constants/Enemy.constants"
 import { EnemyProgressPayload } from "../../types/Enemy.types"
-import { getEnemyModification, getRandom } from "../../utils"
+import { getEnemyModification, getRandomFromArray, sqrtProgress } from "../../utils"
 import useGetLevel from "../level/useGetLevel"
 import useActions from "../useActions"
 import useGetEnemy from "./useGetEnemy"
@@ -8,18 +8,18 @@ import useGetEnemy from "./useGetEnemy"
 const useNextEnemy = () => {
   const { enemyProgress } = useActions()
   
-  const { healthRatios, damageRatios } = useGetLevel()
+  const { healthRatios, damageRatios, startHealth, startDamageMin, startDamageMax } = useGetLevel()
   const enemy = useGetEnemy()
 
   const getEnemyImage = () => {
-    return ENEMY_IMAGES[getRandom(0, ENEMY_IMAGES.length - 1)]
+    return getRandomFromArray(ENEMY_IMAGES)
   }
 
   const nextEnemy = () => {
-    const health = Math.ceil(enemy.maxHealth + healthRatios.linear * enemy.count + (healthRatios.sqrt || 1) * enemy.count * (enemy.count - 1) / 2)
+    const health =  sqrtProgress(startHealth, healthRatios, enemy.count)
     
-    const damageMin = ~~(enemy.damageMin + damageRatios.linear * enemy.count + (damageRatios.sqrt || 1) * enemy.count * (enemy.count - 1) / 2)
-    const damageMax = ~~(enemy.damageMax + damageRatios.linear * enemy.count + (damageRatios.sqrt || 1) * enemy.count * (enemy.count - 1) / 2)
+    const damageMin = sqrtProgress(startDamageMin, damageRatios, enemy.count)
+    const damageMax = sqrtProgress(startDamageMax, damageRatios, enemy.count)
 
     const payload: EnemyProgressPayload = {
       image: getEnemyImage(),

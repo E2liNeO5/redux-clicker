@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import useGetPlayer from '../../../hooks/player/useGetPlayerDamage'
+import useGetPlayer from '../../../hooks/player/useGetPlayer'
 import useActions from '../../../hooks/useActions'
 import { IShieldProps } from '../../../types/Enemy.types'
 import styles from './EnemyModifications.module.scss'

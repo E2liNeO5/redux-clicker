@@ -1,0 +1,74 @@
+@use '../../styles/variables.scss' as *;
+
+.container {
+  display: flex;
+  flex-direction: row;
+
+  .stats_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 50%;
+    width: 50%;
+    border-right: 5px solid $primary-color;
+  
+    .stat_item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 80%;
+      color: $primary-color;
+      background: linear-gradient(-160deg, transparent, transparent, $bg-main-color);
+      box-shadow: 2px 2px 8px rgba($bg-main-color, .5);
+      padding: 0 1em;
+      margin-bottom: 1em;
+      border: 3px solid $primary-color;
+      border-radius: $border-radius;
+      
+      .item_name {
+        position: relative;
+  
+        &:before {
+          content: "";
+          position: absolute;
+          bottom: -5px;
+          left: 5px;
+          width: 100%;
+          height: 2px;
+          background-color: $primary-color;
+        }
+      }
+
+      .item_action {
+        margin-left: 25px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .disabled {
+          color: #5d5d5d;
+        }
+
+        .item_cost {
+          font-size: .75em;
+        }
+
+        .plus {
+          transition: transform .2s;
+          cursor: pointer;
+    
+          &:not(.disabled):hover {
+            transform: rotateZ(180deg) scale(1.2);
+          }
+        }
+      }
+    }
+  }
+
+  .stats_info {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 1em;
+  }
+}

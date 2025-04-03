@@ -4,16 +4,15 @@ import EnemyHealthBar from './enemy-health-bar/EnemyHealthBar'
 import Hit from '../hit/Hit'
 import useActions from '../../hooks/useActions'
 import useGetHits from '../../hooks/hit/useGetHits'
-import { ANIMATION_DURATION, IMAGE_SIZE, INITIAL_OFFSET, MOD_AWARE_ANIMATION_DURATION, ROTATE_RATIO } from '../../constants/Enemy.constants'
+import { IMAGE_SIZE } from '../../constants/Enemy.constants'
 import { IHitData } from '../../types/Hit.types'
-import { getEnemyModification, getRandom, getSaves } from '../../utils'
-import useGetPlayer from '../../hooks/player/useGetPlayerDamage'
+import { getEnemyModification, getRandom } from '../../utils'
+import useGetPlayer from '../../hooks/player/useGetPlayer'
 import useGetEnemy from '../../hooks/enemy/useGetEnemy'
 import Shield from './enemy-modifications/Shield'
-import useHitCondition from '../../hooks/enemy/useHitCondition'
 import useNextEnemy from '../../hooks/enemy/useNextEnemy'
 import useGetLevel from '../../hooks/level/useGetLevel'
-import useAnimation from '../../hooks/useAnimation'
+import useEnemyClick from '../../hooks/enemy/useEnemyClick'
 import AllStats from '../tests/AllStats'
 
 function Enemy() {
@@ -26,11 +25,11 @@ function Enemy() {
 
   const enemy = useGetEnemy()
   const { damage } = useGetPlayer()
-  const { addHit, hitEnemy, setStartEnemy, playerHit } = useActions()
+  const { setStartEnemy, playerHit } = useActions()
   const hits = useGetHits()
   const { startHealth, startDamageMin, startDamageMax } = useGetLevel()
   const nextEnemy = useNextEnemy()
-  const animate = useAnimation()
+  const enemyClick = useEnemyClick()
 
   useEffect(() => {
     setStartEnemy({
@@ -57,32 +56,14 @@ function Enemy() {
   }, [enemy.health])
 
   const clickHandler = (e: MouseEvent<HTMLDivElement>) => {
-    const offset = enemyRef.current?.getBoundingClientRect() || INITIAL_OFFSET
-    const x = e.clientX - offset.left
-    const y = e.clientY - offset.top
-    if(useHitCondition(enemy)) {
-      setClickCount(prev => prev + 1)
-      hitEnemy(damage)
-
-      let rotateX = (IMAGE_SIZE / 2 - y) / ROTATE_RATIO
-      let rotateY = (x - IMAGE_SIZE / 2) / ROTATE_RATIO
-
-      animate({
-        value: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
-        defaultValue: '',
-        setter: setRotate,
-        duration: ANIMATION_DURATION
-      })
-    } else if(e.target !== modificationElementRef.current) {
-      animate({
-        value: 'drop-shadow(0 0 10px red)',
-        defaultValue: '',
-        setter: setModAwareAnimation,
-        duration: MOD_AWARE_ANIMATION_DURATION
-      })
-    }
-    
-    addHit({ id: Date.now(), x, y, variation: getRandom(0, 4) })
+    enemyClick({
+      enemyRef,
+      modificationElementRef,
+      e,
+      setClickCount,
+      setRotate,
+      setModAwareAnimation
+    })
   }
 
   return (

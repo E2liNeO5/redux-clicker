@@ -7,12 +7,12 @@ const useGetLevel = () => {
   const saves = getSaves(LEVEL_SAVE_KEY)
 
   return {
-    currentLevel: level.currentLevel || saves.currentLevel,
-    startHealth: level.startHealth || saves.startHealth,
-    startDamageMin: level.startDamageMin || saves.startDamageMin,
-    startDamageMax: level.startDamageMax || saves.startDamageMax,
-    healthRatios: level.healthRatios || saves.healthRatios,
-    damageRatios: level.damageRatios || saves.damageRatios
+    currentLevel: saves?.currentLevel || level.currentLevel,
+    startHealth: saves?.startHealth || level.startHealth,
+    startDamageMin: saves?.startDamageMin || level.startDamageMin,
+    startDamageMax: saves?.startDamageMax || level.startDamageMax,
+    healthRatios: saves?.healthRatios || level.healthRatios,
+    damageRatios: saves?.damageRatios || level.damageRatios
   }
 }
 

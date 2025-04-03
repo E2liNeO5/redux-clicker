@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styles from './HealthBar.module.scss'
-import useGetPlayer from '../../../../hooks/player/useGetPlayerDamage'
+import useGetPlayer from '../../../../hooks/player/useGetPlayer'
 
 function HealthBar() {
   const player = useGetPlayer()

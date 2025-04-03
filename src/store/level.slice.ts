@@ -3,7 +3,14 @@ import { ILevel } from "../types/Level.types";
 import { LEVEL_SAVE_KEY, levels } from "../constants/Level.constants";
 import { setSaves } from "../utils";
 
-const initialState: ILevel = {}
+const initialState: ILevel = {
+  currentLevel: 1,
+  startHealth: levels[0].startHealth,
+  startDamageMin: levels[0].startDamageMin,
+  startDamageMax: levels[0].startDamageMax,
+  healthRatios: levels[0].healthRatios,
+  damageRatios: levels[0].damageRatios
+}
   
 
 export const levelSlice = createSlice({
