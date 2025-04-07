@@ -9,9 +9,10 @@ interface Props {
   name: string
   cost: number
   stat_name: string
+  font_size?: number
 }
 
-const StatItem = ({ Icon, name, cost, stat_name }: Props) => {
+const StatItem = ({ Icon, name, cost, stat_name, font_size }: Props) => {
   const { score } = useGetPlayer()
   const upgrade = usePlayerUpgrade()
 
@@ -24,8 +25,8 @@ const StatItem = ({ Icon, name, cost, stat_name }: Props) => {
 
   return (
     <div className={styles.stat_item}>
-      <Icon size={64} />
-      <span className={styles.item_name}>{name}</span>
+      <Icon size={58} />
+      <span className={styles.item_name} style={{ fontSize: font_size }}>{name}</span>
       <div className={styles.item_action}>
         <Plus className={`${styles.plus} ${isDisabled}`} size={28} onClick={clickHandler} />
         <span className={`${styles.item_cost} ${isDisabled}`} title={`${cost}`}>Цена: {cost}</span>

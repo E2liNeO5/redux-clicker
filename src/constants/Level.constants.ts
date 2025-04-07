@@ -6,6 +6,7 @@ export const levels: ILevel[] = [
     startHealth: 100,
     startDamageMin: 1,
     startDamageMax: 3,
+    startScore: 10,
     healthRatios: {
       linear: 4,
       sqrt: 1
@@ -13,6 +14,10 @@ export const levels: ILevel[] = [
     damageRatios: {
       linear: 0.01,
       sqrt: 0.01
+    },
+    scoreRatios: {
+      linear: 2,
+      sqrt: 0.4
     }
   },
   {
@@ -20,6 +25,7 @@ export const levels: ILevel[] = [
     startHealth: 200,
     startDamageMin: 3,
     startDamageMax: 5,
+    startScore: 50,
     healthRatios: {
       linear: 5,
       sqrt: 1.5
@@ -27,6 +33,10 @@ export const levels: ILevel[] = [
     damageRatios: {
       linear: 0.05,
       sqrt: 0.02
+    },
+    scoreRatios: {
+      linear: 4,
+      sqrt: 0.8
     }
   }
 ]

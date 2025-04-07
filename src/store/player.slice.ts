@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IPlayer, IPlayerDamageUpgrade, IPlayerHealthUpgrade } from "../types/Player.types";
-import { getSaves, setSaves } from "../utils";
+import { getSaves, savePlayer } from "../utils";
 import { PLAYER_INITIAL_DAMAGE_MAX, PLAYER_INITIAL_DAMAGE_MIN, PLAYER_INITIAL_HEALTH, PLAYER_SAVE_KEY } from "../constants/Player.constants";
 
 const saves = getSaves(PLAYER_SAVE_KEY)
@@ -15,6 +15,7 @@ const initialState: IPlayer = {
   healthUpCount: saves?.healthUpCount || 1,
   damageUpCount: saves?.damageUpCount || 1,
   score: saves?.score || 10000,
+  healCount: saves?.healCount || 0,
   healthRatios: {
     linear: 10,
     sqrt: 2
@@ -39,7 +40,7 @@ export const playerSlice = createSlice({
   reducers: {
     playerHit: (state, { payload: damage }: PayloadAction<number>) => {
       state.health -= damage
-      setSaves(PLAYER_SAVE_KEY, state)
+      savePlayer(state)
     },
     buyDamageUpgrade: (state, { payload }: PayloadAction<IPlayerDamageUpgrade>) => {
       state.damageMin = payload.damageMin
@@ -47,7 +48,7 @@ export const playerSlice = createSlice({
       state.score -= payload.cost
       state.damageCost = payload.damageCost
       state.damageUpCount++
-      setSaves(PLAYER_SAVE_KEY, state)
+      savePlayer(state)
     },
     buyHealthUpgrade: (state, { payload }: PayloadAction<IPlayerHealthUpgrade>) => {
       state.health = payload.maxHealth
@@ -55,7 +56,23 @@ export const playerSlice = createSlice({
       state.score -= payload.cost
       state.healthCost = payload.healthCost
       state.healthUpCount++
-      setSaves(PLAYER_SAVE_KEY, state)
+      savePlayer(state)
+    },
+    setScore: (state, { payload }: PayloadAction<number>) => {
+      state.score += payload
+      savePlayer(state)
+    },
+    buyHeal: (state, { payload }: PayloadAction<number>) => {
+      state.score -= payload
+      state.healCount++
+      savePlayer(state)
+    },
+    playerHeal: (state) => {
+      if(state.healCount > 0 && state.health < state.maxHealth) {
+        state.health = state.maxHealth
+        state.healCount--
+        savePlayer(state)
+      }
     }
   }
 })

@@ -12,7 +12,9 @@ const useGetLevel = () => {
     startDamageMin: saves?.startDamageMin || level.startDamageMin,
     startDamageMax: saves?.startDamageMax || level.startDamageMax,
     healthRatios: saves?.healthRatios || level.healthRatios,
-    damageRatios: saves?.damageRatios || level.damageRatios
+    damageRatios: saves?.damageRatios || level.damageRatios,
+    scoreRatios: saves?.scoreRatios || level.scoreRatios,
+    startScore: saves?.startScore || level.startScore
   }
 }
 

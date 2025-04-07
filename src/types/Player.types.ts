@@ -14,6 +14,7 @@ export interface IPlayer {
   damageRatios: IRatio
   damageUpgradeCostRatios: IRatio
   healthUpgradeCostRatios: IRatio
+  healCount: number
 }
 
 export interface IPlayerDamageUpgrade extends Pick<IPlayer, 'damageMin' | 'damageMax' | 'damageCost'> {

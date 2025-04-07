@@ -22,7 +22,8 @@ const useGetPlayer = () => {
     healthUpCount: saves?.healthUpCount || player_state.healthUpCount,
     damageUpCount: saves?.damageUpCount || player_state.damageUpCount,
     damageUpgradeCostRatios: saves?.damageUpgradeCostRatios || player_state.damageUpgradeCostRatios,
-    healthUpgradeCostRatios: saves?.healthUpgradeCostRatios || player_state.healthUpgradeCostRatios
+    healthUpgradeCostRatios: saves?.healthUpgradeCostRatios || player_state.healthUpgradeCostRatios,
+    healCount: saves?.healCount || player_state.healCount
   }
 }
 

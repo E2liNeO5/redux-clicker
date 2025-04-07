@@ -9,7 +9,8 @@ const initialState: IEnemy = {
   damageMax: 4,
   attack_delay: 2000,
   image: ENEMY_IMAGES[0],
-  count: 0
+  count: 0,
+  score: 0
 }
 
 export const enemySlice = createSlice({
@@ -31,6 +32,7 @@ export const enemySlice = createSlice({
       state.damageMin = payload.damageMin
       state.damageMax = payload.damageMax
       state.modification = payload.modification
+      state.score = payload.score
     },
     setStartEnemy: (state, { payload }: PayloadAction<EnemyStartData>) => {
       state.maxHealth = payload.health
@@ -39,6 +41,7 @@ export const enemySlice = createSlice({
       state.damageMax = payload.damageMax
       state.modification = payload.modification
       state.count = 1
+      state.score = payload.score
     },
     removeModification: (state) => {
       state.modification = null

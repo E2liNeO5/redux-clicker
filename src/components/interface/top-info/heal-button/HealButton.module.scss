@@ -1,0 +1,25 @@
+@use '../../../../styles/variables' as *;
+
+.heal_button {
+  width: 50px;
+  height: 50px;
+  background-image: url('images/heal_potion.png');
+  background-size: cover;
+  background-position: -5px 0;
+  border: 3px solid #519368;
+  position: relative;
+  top: -10px;
+  transition: box-shadow .2s;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 5px #519368;
+  }
+
+  .count {
+    color: $bg-color;
+    position: absolute;
+    top: 0;
+    right: 2px;
+  }
+}

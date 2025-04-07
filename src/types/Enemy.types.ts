@@ -9,6 +9,7 @@ export interface IEnemy {
   image: string
   modification?: null | IEnemyShield
   count: number
+  score: number
 }
 
 export interface IEnemyShield {
@@ -22,6 +23,6 @@ export interface IShieldProps {
   animation: string
 }
 
-export type EnemyProgressPayload = Pick<IEnemy, 'health' | 'modification' | 'image' | 'damageMin' | 'damageMax'>
+export type EnemyProgressPayload = Pick<IEnemy, 'health' | 'modification' | 'image' | 'damageMin' | 'damageMax' | 'score'>
 
-export type EnemyStartData = Pick<IEnemy, 'health' | 'modification' | 'damageMin' | 'damageMax'>
+export type EnemyStartData = Pick<IEnemy, 'health' | 'modification' | 'damageMin' | 'damageMax' | 'score'>

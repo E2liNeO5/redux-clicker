@@ -6,3 +6,4 @@ export const PLAYER_INITIAL_DAMAGE_MAX = 5
 
 export const INITIAL_DAMAGE_COST = 100
 export const INITIAL_HEALTH_COST = 100
+export const HEAL_POTION_COST = 50

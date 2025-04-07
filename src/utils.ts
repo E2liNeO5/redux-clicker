@@ -1,7 +1,9 @@
 import { ENEMY_MODIFY_CHANCE, MODIFICATIONS } from "./constants/Enemy.constants"
+import { PLAYER_SAVE_KEY } from "./constants/Player.constants"
 import { SHIELD_HEALTH_RATIO } from "./constants/Shield.constants"
 import { IEnemy } from "./types/Enemy.types"
 import { IRatio } from "./types/Level.types"
+import { IPlayer } from "./types/Player.types"
 
 export function getRandom(min: number, max: number): number {
   return ~~(min + Math.random() * (max + 1 - min))
@@ -42,4 +44,13 @@ export const sqrtProgress = (value: number, ratios: IRatio, count: number) => {
 
 export const getRandomFromArray = (array: any[]): any => {
   return array[getRandom(0, array.length - 1)]
+}
+
+export const savePlayer = (state: IPlayer) => {
+  const player = JSON.parse(JSON.stringify(state))
+  delete player.healthRatios
+  delete player.damageRatios
+  delete player.damageUpgradeCostRatios
+  delete player.healthUpgradeCostRatios
+  setSaves(PLAYER_SAVE_KEY, player)
 }

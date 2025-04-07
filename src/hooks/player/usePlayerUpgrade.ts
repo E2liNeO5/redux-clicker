@@ -4,7 +4,7 @@ import useActions from "../useActions"
 import useGetPlayer from "./useGetPlayer"
 
 const usePlayerUpgrade = () => {
-  const { buyDamageUpgrade, buyHealthUpgrade } = useActions()
+  const { buyDamageUpgrade, buyHealthUpgrade, buyHeal } = useActions()
   const { damageRatios, damageUpCount, damageUpgradeCostRatios, healthRatios, healthUpCount, healthUpgradeCostRatios } = useGetPlayer()
 
   const upgrade = (stat_name: string, cost: number) => {
@@ -25,6 +25,10 @@ const usePlayerUpgrade = () => {
         buyHealthUpgrade({
           healthCost, maxHealth: health, cost
         })
+        break
+      }
+      case 'healPotion': {
+        buyHeal(cost)
         break
       }
     }

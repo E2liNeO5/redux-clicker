@@ -13,7 +13,6 @@ import Shield from './enemy-modifications/Shield'
 import useNextEnemy from '../../hooks/enemy/useNextEnemy'
 import useGetLevel from '../../hooks/level/useGetLevel'
 import useEnemyClick from '../../hooks/enemy/useEnemyClick'
-import AllStats from '../tests/AllStats'
 
 function Enemy() {
   const [rotate, setRotate] = useState('')
@@ -27,7 +26,7 @@ function Enemy() {
   const { damage } = useGetPlayer()
   const { setStartEnemy, playerHit } = useActions()
   const hits = useGetHits()
-  const { startHealth, startDamageMin, startDamageMax } = useGetLevel()
+  const { startHealth, startDamageMin, startDamageMax, startScore } = useGetLevel()
   const nextEnemy = useNextEnemy()
   const enemyClick = useEnemyClick()
 
@@ -36,7 +35,8 @@ function Enemy() {
       health: startHealth,
       modification: getEnemyModification(enemy),
       damageMin: startDamageMin,
-      damageMax: startDamageMax
+      damageMax: startDamageMax,
+      score: startScore
     })
   }, [])
 

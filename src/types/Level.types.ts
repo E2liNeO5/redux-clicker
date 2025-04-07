@@ -5,6 +5,8 @@ export interface ILevel {
   startHealth?: number
   startDamageMin?: number
   startDamageMax?: number
+  scoreRatios?: IRatio
+  startScore?: number
 }
 
 export interface IRatio {

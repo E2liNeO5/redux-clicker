@@ -6,9 +6,9 @@ import useActions from "../useActions"
 import useGetEnemy from "./useGetEnemy"
 
 const useNextEnemy = () => {
-  const { enemyProgress } = useActions()
+  const { enemyProgress, setScore } = useActions()
   
-  const { healthRatios, damageRatios, startHealth, startDamageMin, startDamageMax } = useGetLevel()
+  const { healthRatios, damageRatios, startHealth, startDamageMin, startDamageMax, startScore, scoreRatios } = useGetLevel()
   const enemy = useGetEnemy()
 
   const getEnemyImage = () => {
@@ -16,14 +16,17 @@ const useNextEnemy = () => {
   }
 
   const nextEnemy = () => {
+    setScore(enemy.score)
+
     const health =  sqrtProgress(startHealth, healthRatios, enemy.count)
     
     const damageMin = sqrtProgress(startDamageMin, damageRatios, enemy.count)
     const damageMax = sqrtProgress(startDamageMax, damageRatios, enemy.count)
+    const score = sqrtProgress(startScore, scoreRatios, enemy.count)
 
     const payload: EnemyProgressPayload = {
       image: getEnemyImage(),
-      health, damageMin, damageMax,
+      health, damageMin, damageMax, score,
       modification: getEnemyModification({ ...enemy, maxHealth: health })
     }
     enemyProgress(payload)
