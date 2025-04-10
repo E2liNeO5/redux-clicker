@@ -14,7 +14,8 @@ const useGetLevel = () => {
     healthRatios: saves?.healthRatios || level.healthRatios,
     damageRatios: saves?.damageRatios || level.damageRatios,
     scoreRatios: saves?.scoreRatios || level.scoreRatios,
-    startScore: saves?.startScore || level.startScore
+    startScore: saves?.startScore || level.startScore,
+    enemyImages: saves?.enemyImages || level.enemyImages
   }
 }
 

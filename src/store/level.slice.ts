@@ -11,7 +11,8 @@ const initialState: ILevel = {
   healthRatios: levels[0].healthRatios,
   damageRatios: levels[0].damageRatios,
   scoreRatios: levels[0].scoreRatios,
-  startScore: levels[0].startScore
+  startScore: levels[0].startScore,
+  enemyImages: levels[0].enemyImages
 }
   
 
@@ -29,6 +30,7 @@ export const levelSlice = createSlice({
       state.startDamageMax = levelData?.startDamageMax
       state.scoreRatios = levelData?.scoreRatios
       state.startScore = levelData?.startScore
+      state.enemyImages = levelData?.enemyImages
 
       setSaves(LEVEL_SAVE_KEY, state)
     }

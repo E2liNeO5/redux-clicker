@@ -15,14 +15,22 @@ const useGetPlayer = () => {
     damage: getRandom(damageMin, damageMax),
     damageMin, damageMax,
     score: saves?.score || player_state.score,
+    healing: saves?.healing || player_state.healing,
+
     damageRatios: player_state.damageRatios,
     healthRatios: player_state.healthRatios,
+    healingRatios: player_state.healingRatios,
+
     damageCost: saves?.damageCost || player_state.damageCost,
     healthCost: saves?.healthCost || player_state.healthCost,
+    healingCost: saves?.healingCost || player_state.healingCost,
+
     healthUpCount: saves?.healthUpCount || player_state.healthUpCount,
     damageUpCount: saves?.damageUpCount || player_state.damageUpCount,
-    damageUpgradeCostRatios: saves?.damageUpgradeCostRatios || player_state.damageUpgradeCostRatios,
-    healthUpgradeCostRatios: saves?.healthUpgradeCostRatios || player_state.healthUpgradeCostRatios,
+    healingUpCount: saves?.healingUpCount || player_state.healingUpCount,
+
+    upgradeCostRatios: saves?.upgradeCostRatios || player_state.upgradeCostRatios,
+    
     healCount: saves?.healCount || player_state.healCount
   }
 }

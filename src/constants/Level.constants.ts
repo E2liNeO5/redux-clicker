@@ -18,7 +18,12 @@ export const levels: ILevel[] = [
     scoreRatios: {
       linear: 2,
       sqrt: 0.4
-    }
+    },
+    enemyImages: [
+      '/images/enemies/level1/enemy1.png',
+      '/images/enemies/level1/enemy2.png',
+      '/images/enemies/level1/enemy3.png'
+    ]
   },
   {
     currentLevel: 2,
@@ -37,7 +42,12 @@ export const levels: ILevel[] = [
     scoreRatios: {
       linear: 4,
       sqrt: 0.8
-    }
+    },
+    enemyImages: [
+      '/images/enemies/level2/enemy1.png',
+      '/images/enemies/level2/enemy2.png',
+      '/images/enemies/level2/enemy3.png'
+    ]
   }
 ]
 

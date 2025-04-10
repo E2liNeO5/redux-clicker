@@ -66,7 +66,9 @@ export const savePlayer = (state: IPlayer) => {
   const player = JSON.parse(JSON.stringify(state))
   delete player.healthRatios
   delete player.damageRatios
+  delete player.healingRatios
   delete player.damageUpgradeCostRatios
   delete player.healthUpgradeCostRatios
+  delete player.healingUpgradeCostRatios
   setSaves(PLAYER_SAVE_KEY, player)
 }

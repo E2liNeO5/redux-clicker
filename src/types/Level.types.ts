@@ -7,6 +7,7 @@ export interface ILevel {
   startDamageMax?: number
   scoreRatios?: IRatio
   startScore?: number
+  enemyImages?: string[]
 }
 
 export interface IRatio {

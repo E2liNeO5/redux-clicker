@@ -5,8 +5,3 @@ export const ROTATE_RATIO = 30
 
 export const ENEMY_INITIAL_HEALTH = 100
 export const ENEMY_ATTACK_DELAY = 500
-
-export const ENEMY_IMAGES = [
-  '/images/enemies/enemy1.png',
-  '/images/enemies/enemy2.png'
-]

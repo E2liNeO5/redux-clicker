@@ -4,7 +4,7 @@ import EnemyHealthBar from './enemy-health-bar/EnemyHealthBar'
 import Hit from '../hit/Hit'
 import useActions from '../../hooks/useActions'
 import useGetHits from '../../hooks/hit/useGetHits'
-import { ENEMY_IMAGES, IMAGE_SIZE } from '../../constants/Enemy.constants'
+import { IMAGE_SIZE } from '../../constants/Enemy.constants'
 import { IHitData } from '../../types/Hit.types'
 import { getEnemyModification, getRandom, getRandomFromArray } from '../../utils'
 import useGetPlayer from '../../hooks/player/useGetPlayer'
@@ -31,13 +31,13 @@ function Enemy() {
   const { damage } = useGetPlayer()
   const { setStartEnemy, playerHit } = useActions()
   const hits = useGetHits()
-  const { startHealth, startDamageMin, startDamageMax, startScore } = useGetLevel()
+  const { startHealth, startDamageMin, startDamageMax, startScore, enemyImages } = useGetLevel()
   const nextEnemy = useNextEnemy()
   const enemyClick = useEnemyClick()
 
   useEffect(() => {
     setStartEnemy({
-      image: getRandomFromArray(ENEMY_IMAGES),
+      image: getRandomFromArray(enemyImages),
       health: startHealth,
       modification: getEnemyModification(enemy),
       damageMin: startDamageMin,

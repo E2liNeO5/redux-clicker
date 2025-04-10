@@ -1,4 +1,3 @@
-import { ENEMY_IMAGES } from "../../constants/Enemy.constants"
 import { EnemyProgressPayload } from "../../types/Enemy.types"
 import { getEnemyModification, getRandomFromArray, sqrtProgress } from "../../utils"
 import useGetLevel from "../level/useGetLevel"
@@ -8,12 +7,8 @@ import useGetEnemy from "./useGetEnemy"
 const useNextEnemy = () => {
   const { enemyProgress, setScore } = useActions()
   
-  const { healthRatios, damageRatios, startHealth, startDamageMin, startDamageMax, startScore, scoreRatios } = useGetLevel()
+  const { healthRatios, damageRatios, startHealth, startDamageMin, startDamageMax, startScore, scoreRatios, enemyImages } = useGetLevel()
   const enemy = useGetEnemy()
-
-  const getEnemyImage = () => {
-    return getRandomFromArray(ENEMY_IMAGES)
-  }
 
   const nextEnemy = () => {
     setScore(enemy.score)
@@ -25,7 +20,7 @@ const useNextEnemy = () => {
     const score = sqrtProgress(startScore, scoreRatios, enemy.count)
 
     const payload: EnemyProgressPayload = {
-      image: getEnemyImage(),
+      image: getRandomFromArray(enemyImages),
       health, damageMin, damageMax, score,
       modification: getEnemyModification({ ...enemy, maxHealth: health })
     }
