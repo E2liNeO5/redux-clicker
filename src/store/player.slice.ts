@@ -14,7 +14,7 @@ const initialState: IPlayer = {
   damageCost: saves?.damageCost || 100,
   healthUpCount: saves?.healthUpCount || 1,
   damageUpCount: saves?.damageUpCount || 1,
-  score: saves?.score || 10000,
+  score: saves?.score || 0,
   healCount: saves?.healCount || 0,
   healthRatios: {
     linear: 10,

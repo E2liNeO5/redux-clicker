@@ -5,7 +5,7 @@ import { IShieldProps } from '../../../types/Enemy.types'
 import styles from './EnemyModifications.module.scss'
 import { getRandom } from '../../../utils'
 import { IMAGE_SIZE } from '../../../constants/Enemy.constants'
-import { SHIELD_MOVE_DELAY, ROTATE_VALUES, SHIELD_MOVE_DURATION, SHIELD_SIZE, SHIELD_TRANSFORM_DURATION, SHIELD_REMOVE_ANIMATION_DURATION } from '../../../constants/Shield.constants'
+import { SHIELD_MOVE_DELAY, ROTATE_VALUES, SHIELD_MOVE_DURATION, SHIELD_SIZE, SHIELD_TRANSFORM_DURATION, SHIELD_REMOVE_ANIMATION_DURATION } from '../../../constants/Modification.constants'
 import useGetEnemy from '../../../hooks/enemy/useGetEnemy'
 import useAnimation from '../../../hooks/useAnimation'
 
@@ -50,9 +50,9 @@ const Shield = ({ modAwareElement, animation }: IShieldProps) => {
   }, [])
 
   useEffect(() => {
-    if(modification && modification.shieldHealth <= 0)
+    if(modification && 'shieldHealth' in modification && modification.shieldHealth <= 0)
       setIsRemove(true)
-  }, [modification?.shieldHealth])
+  }, [modification && 'shieldHealth' in modification && modification?.shieldHealth])
 
   useEffect(() => {
     if(isRemove) {

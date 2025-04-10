@@ -1,11 +1,11 @@
 import { Dispatch, RefObject, SetStateAction } from "react"
-import { ANIMATION_DURATION, IMAGE_SIZE, INITIAL_OFFSET, MOD_AWARE_ANIMATION_DURATION, ROTATE_RATIO } from "../../constants/Enemy.constants"
-import useGetEnemy from "./useGetEnemy"
+import { ANIMATION_DURATION, IMAGE_SIZE, INITIAL_OFFSET, ROTATE_RATIO } from "../../constants/Enemy.constants"
 import useHitCondition from "./useHitCondition"
 import useActions from "../useActions"
 import useGetPlayer from "../player/useGetPlayer"
 import useAnimation from "../useAnimation"
-import { getRandom } from "../../utils"
+import { getChanceSuccess, getRandom } from "../../utils"
+import { MOD_AWARE_ANIMATION_DURATION, SPIKE_SHIELD_MOVE_CHANCE } from "../../constants/Modification.constants"
 
 interface Props {
   enemyRef: RefObject<HTMLDivElement>
@@ -17,16 +17,16 @@ interface Props {
 }
 
 const useEnemyClick = () => {
-  const enemy = useGetEnemy()
   const { damage } = useGetPlayer()
   const { hitEnemy, addHit } = useActions()
   const animate = useAnimation()
+  const condition = useHitCondition()
 
   const enemyClick = ({ enemyRef, modificationElementRef, e, setClickCount, setRotate, setModAwareAnimation }: Props) => {
     const offset = enemyRef.current?.getBoundingClientRect() || INITIAL_OFFSET
     const x = e.clientX - offset.left
     const y = e.clientY - offset.top
-    if(useHitCondition(enemy)) {
+    if(condition(e.target, modificationElementRef)) {
       setClickCount((prev: number) => prev + 1)
       hitEnemy(damage)
   
@@ -49,6 +49,7 @@ const useEnemyClick = () => {
     }
     
     addHit({ id: Date.now(), x, y, variation: getRandom(0, 4) })
+    return { x, y, spikeShieldMove: getChanceSuccess(SPIKE_SHIELD_MOVE_CHANCE) }
   }
 
   return enemyClick

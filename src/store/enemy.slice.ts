@@ -1,13 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IEnemy, EnemyProgressPayload, EnemyStartData } from "../types/Enemy.types";
-import { ENEMY_IMAGES, ENEMY_INITIAL_HEALTH } from "../constants/Enemy.constants";
+import { ENEMY_ATTACK_DELAY, ENEMY_IMAGES, ENEMY_INITIAL_HEALTH } from "../constants/Enemy.constants";
 
 const initialState: IEnemy = {
   health: ENEMY_INITIAL_HEALTH,
   maxHealth: ENEMY_INITIAL_HEALTH,
   damageMin: 2,
   damageMax: 4,
-  attack_delay: 2000,
+  attack_delay: ENEMY_ATTACK_DELAY,
   image: ENEMY_IMAGES[0],
   count: 0,
   score: 0
@@ -22,7 +22,8 @@ export const enemySlice = createSlice({
     },
     hitShield: (state, { payload: damage }: PayloadAction<number>) => {
       const mod = state.modification
-      mod && (mod.shieldHealth -= damage)
+      if(mod && 'shieldHealth' in mod)
+        mod.shieldHealth -= damage
     },
     enemyProgress: (state, { payload }: PayloadAction<EnemyProgressPayload>) => {
       state.count++
@@ -35,6 +36,7 @@ export const enemySlice = createSlice({
       state.score = payload.score
     },
     setStartEnemy: (state, { payload }: PayloadAction<EnemyStartData>) => {
+      state.image = payload.image
       state.maxHealth = payload.health
       state.health = payload.health
       state.damageMin = payload.damageMin

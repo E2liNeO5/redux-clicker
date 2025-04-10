@@ -1,23 +1,28 @@
-import { useRef, useState, MouseEvent, useEffect } from 'react'
+import { useRef, useState, MouseEvent, useEffect, useCallback } from 'react'
 import styles from './Enemy.module.scss'
 import EnemyHealthBar from './enemy-health-bar/EnemyHealthBar'
 import Hit from '../hit/Hit'
 import useActions from '../../hooks/useActions'
 import useGetHits from '../../hooks/hit/useGetHits'
-import { IMAGE_SIZE } from '../../constants/Enemy.constants'
+import { ENEMY_IMAGES, IMAGE_SIZE } from '../../constants/Enemy.constants'
 import { IHitData } from '../../types/Hit.types'
-import { getEnemyModification, getRandom } from '../../utils'
+import { getEnemyModification, getRandom, getRandomFromArray } from '../../utils'
 import useGetPlayer from '../../hooks/player/useGetPlayer'
 import useGetEnemy from '../../hooks/enemy/useGetEnemy'
 import Shield from './enemy-modifications/Shield'
 import useNextEnemy from '../../hooks/enemy/useNextEnemy'
 import useGetLevel from '../../hooks/level/useGetLevel'
 import useEnemyClick from '../../hooks/enemy/useEnemyClick'
+import SpikeShield from './enemy-modifications/SpikeShield'
+import Spikes from './enemy-modifications/Spikes'
 
 function Enemy() {
   const [rotate, setRotate] = useState('')
   const [clickCount, setClickCount] = useState(0)
   const [modAwareAnimation, setModAwareAnimation] = useState('')
+  const [cursorCoords, setCursorCoords] = useState({
+    x: getRandom(0, IMAGE_SIZE), y: getRandom(0, IMAGE_SIZE)
+  })
 
   const enemyRef = useRef<HTMLDivElement>(null)
   const modificationElementRef = useRef<HTMLDivElement>(null)
@@ -32,6 +37,7 @@ function Enemy() {
 
   useEffect(() => {
     setStartEnemy({
+      image: getRandomFromArray(ENEMY_IMAGES),
       health: startHealth,
       modification: getEnemyModification(enemy),
       damageMin: startDamageMin,
@@ -56,7 +62,7 @@ function Enemy() {
   }, [enemy.health])
 
   const clickHandler = (e: MouseEvent<HTMLDivElement>) => {
-    enemyClick({
+    const { spikeShieldMove, x, y } = enemyClick({
       enemyRef,
       modificationElementRef,
       e,
@@ -64,7 +70,24 @@ function Enemy() {
       setRotate,
       setModAwareAnimation
     })
+    if(spikeShieldMove) {
+      setCursorCoords({ x, y })
+    }
   }
+
+  const spikesGenerate = useCallback(() => {
+    const spikes = []
+    const count = enemy.modification && 'count' in enemy.modification ? enemy.modification.count : 0
+    const damageMin = enemy.modification && 'damageMin' in enemy.modification ? enemy.modification.damageMin : 0
+    const damageMax = enemy.modification && 'damageMax' in enemy.modification ? enemy.modification.damageMax : 0
+    for(let i = 0; i < Number(count); i ++) {
+      spikes.push({
+        id: `spikes${i}`,
+        damage: getRandom(damageMin, damageMax)
+      })
+    }
+    return spikes.map(spike => <Spikes key={spike.id} damage={spike.damage} />)
+  }, [enemy.count])
 
   return (
     <div className={styles.enemy_container}>
@@ -83,6 +106,10 @@ function Enemy() {
         </div>
           { enemy.modification && enemy.modification.type === 'shield' &&
             <Shield modAwareElement={modificationElementRef} animation={modAwareAnimation} /> }
+          { enemy.modification && enemy.modification.type === 'spikeShield' &&
+            <SpikeShield modAwareElement={modificationElementRef} x={cursorCoords.x} y={cursorCoords.y} /> }
+          { enemy.modification && enemy.modification.type === 'spikes' &&
+            spikesGenerate() }
           { hits.map((hit: IHitData) => <Hit key={hit.id} item={hit} />) }
       </div>
 

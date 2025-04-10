@@ -4,9 +4,31 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-image: url('/images/shield.png');
+  background-image: url('/images/modifications/shield.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   filter: drop-shadow(0 0 10px $bg-color);
+}
+
+.spike_shield {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url('/images/modifications/spike_shield.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 0 3px #fe5e5e);
+}
+
+.spikes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url('/images/modifications/spikes.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 0 3px #fe5e5e);
 }

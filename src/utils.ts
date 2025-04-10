@@ -1,6 +1,5 @@
-import { ENEMY_MODIFY_CHANCE, MODIFICATIONS } from "./constants/Enemy.constants"
 import { PLAYER_SAVE_KEY } from "./constants/Player.constants"
-import { SHIELD_HEALTH_RATIO } from "./constants/Shield.constants"
+import { MODIFICATIONS, MODIFY_CHANCE, SHIELD_HEALTH_RATIO, SPIKES_COUNT_MAX, SPIKES_COUNT_MIN, SPIKE_DAMAGE_RATIO } from "./constants/Modification.constants"
 import { IEnemy } from "./types/Enemy.types"
 import { IRatio } from "./types/Level.types"
 import { IPlayer } from "./types/Player.types"
@@ -14,15 +13,32 @@ export const getChanceSuccess = (chance: number) => {
 }
 
 export const getEnemyModification = (state: IEnemy) => {
-  if(getChanceSuccess(ENEMY_MODIFY_CHANCE)) {
+  if(getChanceSuccess(MODIFY_CHANCE)) {
     const mod = getRandomFromArray(MODIFICATIONS)
+    let damageMin = 0
+    let damageMax = 0
     switch(mod.type) {
       case 'shield':
-        const shieldHealth = Math.ceil(state.maxHealth / SHIELD_HEALTH_RATIO)
+        const shieldHealth = ~~(state.maxHealth / SHIELD_HEALTH_RATIO)
         return {
           ...mod,
           shieldMaxHealth: shieldHealth,
           shieldHealth: shieldHealth
+        }
+      case 'spikeShield':
+        damageMin = ~~(state.damageMin / SPIKE_DAMAGE_RATIO)
+        damageMax = ~~(state.damageMax / SPIKE_DAMAGE_RATIO)
+        return {
+          ...mod,
+          damageMin, damageMax
+        }
+      case 'spikes':
+        damageMin = ~~(state.damageMin / SPIKE_DAMAGE_RATIO)
+        damageMax = ~~(state.damageMax / SPIKE_DAMAGE_RATIO)
+        const count = getRandom(SPIKES_COUNT_MIN, SPIKES_COUNT_MAX)
+        return {
+          ...mod,
+          damageMin, damageMax, count
         }
     }
   }
