@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import useGetPlayer from '../../../../hooks/player/useGetPlayer'
 import useAnimation from '../../../../hooks/useAnimation'
 import styles from './PlayerScore.module.scss'
+import { getShortValue } from '../../../../utils'
 
 const PlayerScore = () => {
   const { score } = useGetPlayer()
@@ -19,7 +20,7 @@ const PlayerScore = () => {
 
   return (
     <div className={`${styles.score_container} ${animationClass}`} title={`${score}`}>
-      {score}
+      {getShortValue(score)}
     </div>
   )
 }

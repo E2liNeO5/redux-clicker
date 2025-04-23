@@ -1,5 +1,6 @@
 import AllStats from '../components/tests/AllStats'
 import ProgressCalculating from '../components/tests/ProgressCalculating'
+import ShortValueTest from '../components/tests/ShortValueTest'
 import useGetPlayer from '../hooks/player/useGetPlayer'
 import styles from '../styles/Testing.module.scss'
 
@@ -16,6 +17,7 @@ const Testing = () => {
       <AllStats item={player} />
       <button onClick={gameReset}>Сброс игры</button>
       <ProgressCalculating />
+      <ShortValueTest />
     </div>
   )
 }

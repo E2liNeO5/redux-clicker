@@ -3,6 +3,7 @@ import styles from './CharacterStats.module.scss'
 import { useMemo } from 'react'
 import usePlayerUpgrade from '../../hooks/player/usePlayerUpgrade'
 import useGetPlayer from '../../hooks/player/useGetPlayer'
+import { getShortValue } from '../../utils'
 
 interface Props {
   Icon: LucideIcon
@@ -29,7 +30,7 @@ const StatItem = ({ Icon, name, cost, stat_name, font_size }: Props) => {
       <span className={styles.item_name} style={{ fontSize: font_size }}>{name}</span>
       <div className={styles.item_action}>
         <Plus className={`${styles.plus} ${isDisabled}`} size={28} onClick={clickHandler} />
-        <span className={`${styles.item_cost} ${isDisabled}`} title={`${cost}`}>Цена: {cost}</span>
+        <span className={`${styles.item_cost} ${isDisabled}`} title={`${cost}`}>Цена: {getShortValue(cost)}</span>
       </div>
     </div>
   )

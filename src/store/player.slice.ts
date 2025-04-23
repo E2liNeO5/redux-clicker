@@ -17,7 +17,7 @@ const initialState: IPlayer = {
   healthUpCount: saves?.healthUpCount || 1,
   damageUpCount: saves?.damageUpCount || 1,
   healingUpCount: saves?.healingUpCount || 1,
-  score: saves?.score || 100000,
+  score: saves?.score || 0,
   healCount: saves?.healCount || 0,
   healthRatios: {
     linear: 10,
@@ -44,6 +44,11 @@ export const playerSlice = createSlice({
     playerHit: (state, { payload: damage }: PayloadAction<number>) => {
       state.health -= damage
       savePlayer(state)
+
+      if(state.health <= 0) {
+        localStorage.clear()
+        location.replace(`${location.origin}/defeat`)
+      }
     },
     buyDamageUpgrade: (state, { payload }: PayloadAction<IPlayerDamageUpgrade>) => {
       state.damageMin = payload.damageMin

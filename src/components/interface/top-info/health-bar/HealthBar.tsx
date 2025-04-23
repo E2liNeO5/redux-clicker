@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import styles from './HealthBar.module.scss'
 import useGetPlayer from '../../../../hooks/player/useGetPlayer'
+import { getShortValue } from '../../../../utils'
 
 function HealthBar() {
   const player = useGetPlayer()
@@ -28,7 +29,7 @@ function HealthBar() {
       <span className={styles.bar_container} style={{
         width: barWidth,
       }} />
-      <span className={styles.bar_value}>{player.health}/{player.maxHealth}</span>
+      <span className={styles.bar_value}>{getShortValue(player.health)}/{getShortValue(player.maxHealth)}</span>
     </div>
   )
 }

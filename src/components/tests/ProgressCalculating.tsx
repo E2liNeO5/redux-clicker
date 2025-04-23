@@ -26,7 +26,6 @@ const ProgressCalculating = () => {
   const [steps, setSteps] = useState<IStep[]>([])
 
   const onClickHandler = () => {
-    console.log(values)
     if(Object.keys(values).length > 0) {
       setSteps([])
       for(let i = 1; i <= values.count; i++) {

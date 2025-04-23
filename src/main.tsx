@@ -9,6 +9,7 @@ import LevelMap from './pages/LevelMap.tsx'
 import Character from './pages/Character.tsx'
 import LevelLayout from './pages/LevelLayout.tsx'
 import Testing from './pages/Testing.tsx'
+import Defeat from './pages/Defeat.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <Route element={<LevelLayout />}>
             <Route path='level/:level' element={<Enemy />} /> 
           </Route>
+          <Route path='defeat' element={<Defeat />} />
         </Routes>
       </BrowserRouter>
     </Provider>

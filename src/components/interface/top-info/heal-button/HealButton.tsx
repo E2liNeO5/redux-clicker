@@ -1,5 +1,6 @@
 import useGetPlayer from '../../../../hooks/player/useGetPlayer'
 import useActions from '../../../../hooks/useActions'
+import { getShortValue } from '../../../../utils'
 import styles from './HealButton.module.scss'
 
 const HealButton = () => {
@@ -13,7 +14,7 @@ const HealButton = () => {
 
   return (
     <div className={styles.heal_button} onClick={() => playerHeal()}>
-      <div className={styles.count} style={{ fontSize: setFontSize(healCount) }} >{healCount}</div>
+      <div className={styles.count} style={{ fontSize: setFontSize(healCount) }} >{ getShortValue(healCount)}</div>
     </div>
   )
 }

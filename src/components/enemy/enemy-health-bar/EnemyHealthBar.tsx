@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import styles from './EnemyHealthBar.module.scss'
 import { IPart, Props } from '../../../types/EnemyHealthBar.types'
+import { getShortValue } from '../../../utils'
 
 const INITIAL_PARTS: IPart[] = []
 
@@ -51,7 +52,7 @@ function EnemyHealthBar({ damage, clickCount, health, maxHealth }: Props) {
           />
         ))}
       </span>
-      <span className={styles.bar_value}>{health}/{maxHealth}</span>
+      <span className={styles.bar_value}>{getShortValue(health)}/{getShortValue(maxHealth)}</span>
     </div>
   )
 }

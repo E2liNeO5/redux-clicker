@@ -72,3 +72,23 @@ export const savePlayer = (state: IPlayer) => {
   delete player.healingUpgradeCostRatios
   setSaves(PLAYER_SAVE_KEY, player)
 }
+
+export const getShortValue = (value: number): string => {
+  const length = String(value).length
+  let short: string
+
+  if(length >= 4 && length <= 6) {
+    short = (value / 1000).toFixed(1)
+
+    return `${short.includes('.0') ? short.slice(0, -2) : short}тыс`
+  } else if(length >= 7 && length <= 9) {
+    short = (value / 1000000).toFixed(1)
+
+    return `${short.includes('.0') ? short.slice(0, -2) : short}млн`
+  } else if(length >= 10) {
+    short = (value / 1000000000).toFixed(1)
+
+    return `${short.includes('.0') ? short.slice(0, -2) : short}млрд`
+  }
+  return String(value)
+}
