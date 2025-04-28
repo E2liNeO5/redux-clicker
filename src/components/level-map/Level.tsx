@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router'
 import styles from './Level.module.scss'
 import useActions from '../../hooks/useActions'
-import useGetLevel from '../../hooks/level/useGetLevel'
 
 interface Props {
   levelNumber: number

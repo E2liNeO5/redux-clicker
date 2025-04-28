@@ -136,8 +136,6 @@ html {
     }
 
     .defeat_restart {
-      width: 100%;
-      margin: 0 auto;
       font-size: 32px;
       padding: 0.25em 1em;
       background: linear-gradient(180deg, $bg-main-color 60%, $primary-color);
@@ -152,6 +150,7 @@ html {
         animation-name: btn_floating;
         animation-iteration-count: infinite;
         animation-timing-function: ease-in-out;
+        animation-duration: 2s;
         animation-delay: .2s;
 
         @keyframes btn_floating {

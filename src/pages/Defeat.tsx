@@ -10,7 +10,7 @@ const Defeat = () => {
   const clickHandler = () => {
     setIsAnimation(prev => !prev)
     setTimeout(() => {
-      navigate('/')
+      navigate('/', { replace: true })
     }, ANIMATION_DURATION + 500)
   }
 

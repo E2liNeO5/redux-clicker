@@ -6,6 +6,8 @@
   padding: 1em;
   list-style-type: none;
   border: 2px solid #000;
+  max-height: 80dvh;
+  overflow: auto;
 
   li {
     list-style-type: none;

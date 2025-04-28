@@ -18,6 +18,17 @@ export interface IPlayer {
   healingRatios: IRatio
   upgradeCostRatios: IRatio
   healCount: number
+  hit: IPlayerHit
+  boughtHitImages: number[]
+  boughtHitGlowing: number[]
+}
+
+export interface IPlayerHit {
+  variations: number
+  frames: number
+  url: string
+  id: number
+  glowing: string
 }
 
 export interface IPlayerDamageUpgrade extends Pick<IPlayer, 'damageMin' | 'damageMax' | 'damageCost'> {
@@ -31,3 +42,7 @@ export interface IPlayerHealthUpgrade extends Pick<IPlayer, 'maxHealth' | 'healt
 export interface IPlayerHealingUpgrade extends Pick<IPlayer, 'healing' | 'healingCost'> {
   cost: number
 }
+
+export interface IHitImageBuyPayload extends Pick<IPlayerHit, 'id' | 'url' | 'frames' | 'variations'> {}
+
+export interface IHitGlowingBuyPayload extends Pick<IPlayerHit, 'id' | 'glowing'> {}

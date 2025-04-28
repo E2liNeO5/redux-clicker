@@ -31,7 +31,11 @@ const useGetPlayer = () => {
 
     upgradeCostRatios: saves?.upgradeCostRatios || player_state.upgradeCostRatios,
     
-    healCount: saves?.healCount || player_state.healCount
+    healCount: saves?.healCount || player_state.healCount,
+
+    hit: saves?.hit || player_state.hit,
+    boughtHitImages: saves?.boughtHitImages || player_state.boughtHitImages,
+    boughtHitGlowing: saves?.boughtHitGlowing || player_state.boughtHitGlowing,
   }
 }
 

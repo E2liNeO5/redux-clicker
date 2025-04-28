@@ -10,6 +10,7 @@ import Character from './pages/Character.tsx'
 import LevelLayout from './pages/LevelLayout.tsx'
 import Testing from './pages/Testing.tsx'
 import Defeat from './pages/Defeat.tsx'
+import Customize from './pages/Customize.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             <Route index element={<Character />} /> 
             <Route path='map' element={<LevelMap />} />
             <Route path='testing' element={<Testing />} />
+            <Route path='customize' element={<Customize />} />
           </Route>
 
           <Route element={<LevelLayout />}>

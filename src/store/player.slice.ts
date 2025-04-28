@@ -1,7 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IPlayer, IPlayerDamageUpgrade, IPlayerHealingUpgrade, IPlayerHealthUpgrade } from "../types/Player.types";
+import { IHitGlowingBuyPayload, IHitImageBuyPayload, IPlayer, IPlayerDamageUpgrade, IPlayerHealingUpgrade, IPlayerHealthUpgrade } from "../types/Player.types";
 import { getSaves, savePlayer } from "../utils";
-import { PLAYER_INITIAL_DAMAGE_MAX, PLAYER_INITIAL_DAMAGE_MIN, PLAYER_INITIAL_HEALING, PLAYER_INITIAL_HEALTH, PLAYER_SAVE_KEY } from "../constants/Player.constants";
+import { INITIAL_DAMAGE_COST, INITIAL_HEALING_COST, INITIAL_HEALTH_COST, INITIAL_PLAYER_HIT, PLAYER_INITIAL_DAMAGE_MAX, PLAYER_INITIAL_DAMAGE_MIN, PLAYER_INITIAL_HEALING, PLAYER_INITIAL_HEALTH, PLAYER_SAVE_KEY } from "../constants/Player.constants";
+import { HIT_GLOWING, HIT_GLOWING_BUY_COST, HIT_IMAGES, HIT_IMAGE_BUY_COST } from "../constants/Hit.constants";
 
 const saves = getSaves(PLAYER_SAVE_KEY)
 
@@ -11,9 +12,9 @@ const initialState: IPlayer = {
   damageMin: saves?.damageMin || PLAYER_INITIAL_DAMAGE_MIN,
   damageMax: saves?.damageMax || PLAYER_INITIAL_DAMAGE_MAX,
   healing: saves?.damageMax || PLAYER_INITIAL_HEALING,
-  healthCost: saves?.healthCost || 100,
-  damageCost: saves?.damageCost || 100,
-  healingCost: saves?.healingCost || 100,
+  healthCost: saves?.healthCost || INITIAL_HEALTH_COST,
+  damageCost: saves?.damageCost || INITIAL_DAMAGE_COST,
+  healingCost: saves?.healingCost || INITIAL_HEALING_COST,
   healthUpCount: saves?.healthUpCount || 1,
   damageUpCount: saves?.damageUpCount || 1,
   healingUpCount: saves?.healingUpCount || 1,
@@ -34,7 +35,10 @@ const initialState: IPlayer = {
   upgradeCostRatios: {
     linear: 50,
     sqrt: 2
-  }
+  },
+  hit: saves?.hit || INITIAL_PLAYER_HIT,
+  boughtHitImages: saves?.boughtHitImages || [HIT_IMAGES[0].id],
+  boughtHitGlowing: saves?.boughtHitGlowing || [HIT_GLOWING[0].id]
 }
 
 export const playerSlice = createSlice({
@@ -88,6 +92,25 @@ export const playerSlice = createSlice({
         state.healCount--
         savePlayer(state)
       }
+    },
+    buyHitImage: (state, { payload }: PayloadAction<IHitImageBuyPayload>) => {
+      state.score -= HIT_IMAGE_BUY_COST
+      state.boughtHitImages.push(payload.id)
+      state.hit = { glowing: state.hit.glowing, ...payload }
+      savePlayer(state)
+    },
+    buyHitGlowing: (state, { payload }: PayloadAction<IHitGlowingBuyPayload>) => {
+      state.score -= HIT_GLOWING_BUY_COST
+      state.boughtHitGlowing.push(payload.id)
+      state.hit.glowing = payload.glowing
+      savePlayer(state)
+    },
+    setCurrentHit: (state, { payload }: PayloadAction<IHitImageBuyPayload | IHitGlowingBuyPayload>) => {
+      if('glowing' in payload)
+        state.hit.glowing = payload.glowing
+      else
+        state.hit = { glowing: state.hit.glowing, ...payload }
+      savePlayer(state)
     }
   }
 })

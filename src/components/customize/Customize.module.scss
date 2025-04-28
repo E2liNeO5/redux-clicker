@@ -1,0 +1,115 @@
+@use '../../styles/variables.scss' as *;
+
+.wrapper {
+  margin: 0 auto;
+  background-color: #5d5d5d;
+  border: 5px solid $bg-color;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, .3),
+              0 0 3px 1px rgba(0, 0, 0, .3) inset;
+  transition: transform .2s;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  .current_hit {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.customize_container {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  grid-template-rows: 10% 80%;
+  justify-items: center;
+  align-items: start;
+  width: 100%;
+  height: 70%;
+  margin-top: 2em;
+
+  h3 {
+    position: relative;
+
+    &:before {
+      content: "";
+      width: 110%;
+      height: 5px;
+      background-color: $primary-color;
+      position: absolute;
+      bottom: -10px;
+      left: 10px;
+    }
+  }
+
+  .buy_hit_container {
+    display: grid;
+    grid-template-columns: repeat(3, 64px);
+    grid-auto-rows: 64px;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    gap: 10px;
+    padding: 1em;
+    height: 100%;
+  
+    .hit_item {
+      position: relative;
+      transform: scale(0.5);
+      background-color: #5d5d5d;
+  
+      &.bought {
+        box-shadow: 0 0 5px 5px $bg-main-color;
+      }
+
+      &.selected {
+        box-shadow: 0 0 5px 5px $primary-color;
+      }
+  
+      .lock {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        color: $primary-color;
+      }
+    }
+  }
+
+  .glowing_hit_container {
+    display: grid;
+    grid-template-columns: repeat(3, 64px);
+    grid-auto-rows: 64px;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    gap: 10px;
+    padding: 1em;
+    height: 100%;
+
+    .glowing_item {
+      width: 64px;
+      height: 64px;
+      border: 3px solid #5d5d5d;
+      position: relative;
+
+      &.bought {
+        box-shadow: 0 0 2.5px 2.5px $bg-main-color;
+      }
+
+      &.selected {
+        box-shadow: 0 0 2.5px 2.5px $primary-color;
+      }
+
+      .lock {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        color: $primary-color;
+      }
+    }
+  }
+}

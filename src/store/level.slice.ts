@@ -22,15 +22,15 @@ export const levelSlice = createSlice({
   reducers: {
     setLevel: (state, { payload: level }: PayloadAction<number>) => {
       state.currentLevel = level
-      const levelData = levels.find($level => $level.currentLevel === level)
-      state.healthRatios = levelData?.healthRatios
-      state.damageRatios = levelData?.damageRatios
-      state.startHealth = levelData?.startHealth
-      state.startDamageMin = levelData?.startDamageMin
-      state.startDamageMax = levelData?.startDamageMax
-      state.scoreRatios = levelData?.scoreRatios
-      state.startScore = levelData?.startScore
-      state.enemyImages = levelData?.enemyImages
+      const levelData = levels.find($level => $level.currentLevel === level) || levels[0]
+      state.healthRatios = levelData.healthRatios
+      state.damageRatios = levelData.damageRatios
+      state.startHealth = levelData.startHealth
+      state.startDamageMin = levelData.startDamageMin
+      state.startDamageMax = levelData.startDamageMax
+      state.scoreRatios = levelData.scoreRatios
+      state.startScore = levelData.startScore
+      state.enemyImages = levelData.enemyImages
 
       setSaves(LEVEL_SAVE_KEY, state)
     }

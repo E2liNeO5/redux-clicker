@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react'
-import styles from '../../styles/Testing.module.scss'
+import styles from './Testing.module.scss'
 import { getShortValue } from '../../utils'
 
 const ShortValueTest = () => {

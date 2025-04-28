@@ -1,4 +1,4 @@
-import styles from '../../styles/Testing.module.scss'
+import styles from './Testing.module.scss'
 
 const AllStats = ({ item }: any) => {
   const showItemStats = (item: any, padding?: number): any => {

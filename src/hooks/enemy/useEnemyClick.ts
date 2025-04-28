@@ -17,7 +17,7 @@ interface Props {
 }
 
 const useEnemyClick = () => {
-  const { damage } = useGetPlayer()
+  const { damage, hit } = useGetPlayer()
   const { hitEnemy, addHit } = useActions()
   const animate = useAnimation()
   const condition = useHitCondition()
@@ -48,7 +48,7 @@ const useEnemyClick = () => {
       })
     }
     
-    addHit({ id: Date.now(), x, y, variation: getRandom(0, 4) })
+    addHit({ id: Date.now(), x, y, variation: getRandom(0, hit.variations) })
     return { x, y, spikeShieldMove: getChanceSuccess(SPIKE_SHIELD_MOVE_CHANCE) }
   }
 
